@@ -3,7 +3,7 @@
 Deadline: Thu 12 Nov 2026, 12:00 PT. One item per loop iteration: the first unchecked **Build** item. 🔒 = stop the loop and wait for Ahmed. The three items under "Before the money and model steps" block only the steps that need them: model key → 5; PayPal sandbox → 7; repo history → 15.
 
 ## Before the money and model steps
-- [ ] 🔒 Repo history: delete and recreate the private remote with a clean history (personal planning notes are in the first commit). Needs `gh auth refresh -s delete_repo`. Must be done before the repo goes public.
+- [x] 🔒 Repo history: the development repo was renamed (kept private); the published repo starts from one clean commit of main (9 Nov). Nothing deleted.
 - [x] 🔒 PayPal sandbox app: existing Default Application; keys in Keychain (8 Nov); existing sandbox business + personal accounts (EG) accept USD orders and invoices (tested 8 Nov).
 - [x] 🔒 Model key (Fireworks): existing key in the Keychain, $2/day cap in code (owner OK, 8 Nov).
 
@@ -22,5 +22,5 @@ Deadline: Thu 12 Nov 2026, 12:00 PT. One item per loop iteration: the first unch
 - [ ] 12. Judges can test until 15 Dec: hosting (Render free tier, credits checked first) or run-locally instructions; model daily cap on.
 - [x] 13. (HyperFrames film "One bill, one number", 94 s, ElevenLabs voice, catalog music; video/film) Video: video-director plan → Playwright capture → render, ~2:00, no trademarks.
 - [x] 14. 🔒 G4: Ahmed watched the preview with sound and asked for the render (9 Nov).
-- [ ] 15. `prepublish_scan.py` on the full history.
+- [x] 15. Pre-publish scan: secret patterns and private notes, full history of the development repo and the published snapshot: clean (9 Nov).
 - [ ] 16. 🔒 G5: repo public, YouTube upload, Devpost form, submit (Ahmed's clicks).
