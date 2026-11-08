@@ -1,0 +1,143 @@
+[
+ {
+  "id": "C08",
+  "bill": {
+   "bill_id": "C08",
+   "provider_name": "Riverside Community Hospital (Synthetic)",
+   "claim_type": "facility",
+   "date_of_service": "2026-10-15",
+   "total_billed": 4445.0,
+   "line_items": [
+    {
+     "line_id": "L1",
+     "description": "ED visit level 4",
+     "cpt_code": "99284",
+     "billed_amount": 2400.0
+    },
+    {
+     "line_id": "L2",
+     "description": "CT head",
+     "cpt_code": "70450",
+     "billed_amount": 1650.0
+    },
+    {
+     "line_id": "L3",
+     "description": "Metabolic panel",
+     "cpt_code": "80053",
+     "billed_amount": 180.0
+    },
+    {
+     "line_id": "L4",
+     "description": "CBC",
+     "cpt_code": "85025",
+     "billed_amount": 95.0
+    },
+    {
+     "line_id": "L5",
+     "description": "Injection",
+     "cpt_code": "96372",
+     "billed_amount": 120.0
+    }
+   ]
+  }
+ },
+ {
+  "id": "C01",
+  "bill": {
+   "bill_id": "C01",
+   "provider_name": "Lakeside Emergency Physicians (Synthetic)",
+   "claim_type": "professional",
+   "date_of_service": "2026-10-15",
+   "total_billed": 850.0,
+   "line_items": [
+    {
+     "line_id": "L1",
+     "description": "ED visit, moderate",
+     "cpt_code": "99284",
+     "billed_amount": 850.0
+    }
+   ]
+  }
+ },
+ {
+  "id": "C04",
+  "bill": {
+   "bill_id": "C04",
+   "provider_name": "Harbor Radiology Group (Synthetic)",
+   "claim_type": "professional",
+   "date_of_service": "2026-10-15",
+   "total_billed": 460.0,
+   "line_items": [
+    {
+     "line_id": "L1",
+     "description": "CT head read",
+     "cpt_code": "70450",
+     "modifier": "26",
+     "billed_amount": 400.0
+    },
+    {
+     "line_id": "L2",
+     "description": "Chest X-ray read",
+     "cpt_code": "71045",
+     "modifier": "26",
+     "billed_amount": 60.0
+    }
+   ]
+  }
+ },
+ {
+  "id": "C10",
+  "bill": {
+   "bill_id": "C10",
+   "provider_name": "Riverside Community Hospital (Synthetic)",
+   "claim_type": "facility",
+   "date_of_service": "2026-11-06",
+   "total_billed": 4200.0,
+   "line_items": [
+    {
+     "line_id": "L1",
+     "description": "ED visit level 3",
+     "cpt_code": "99283",
+     "billed_amount": 900.0
+    },
+    {
+     "line_id": "L2",
+     "description": "CT head x2",
+     "cpt_code": "70450",
+     "units": 2,
+     "billed_amount": 3000.0
+    },
+    {
+     "line_id": "L3",
+     "description": "Chest X-ray",
+     "cpt_code": "71045",
+     "billed_amount": 300.0
+    }
+   ]
+  }
+ },
+ {
+  "id": "C11",
+  "bill": {
+   "bill_id": "C11",
+   "provider_name": "Valley Reference Lab (Synthetic)",
+   "claim_type": "lab",
+   "date_of_service": "2026-10-22",
+   "total_billed": 240.0,
+   "line_items": [
+    {
+     "line_id": "L1",
+     "description": "Metabolic panel",
+     "cpt_code": "80053",
+     "billed_amount": 150.0
+    },
+    {
+     "line_id": "L2",
+     "description": "CBC",
+     "cpt_code": "85025",
+     "billed_amount": 90.0
+    }
+   ]
+  }
+ }
+]

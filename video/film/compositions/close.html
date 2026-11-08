@@ -1,0 +1,170 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #f6f7f5;
+      font-family: Inter, sans-serif;
+      color: #1c2321;
+    }
+    #cl-hero {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 450px;
+      text-align: center;
+      font-size: 168px;
+      font-weight: 900;
+      line-height: 1;
+      color: #0f6e5c;
+      font-variant-numeric: tabular-nums;
+    }
+    #cl-billed {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 352px;
+      text-align: center;
+      font-size: 44px;
+      color: #5d6763;
+    }
+    #cl-billed .w {
+      position: relative;
+      display: inline-block;
+      font-variant-numeric: tabular-nums;
+    }
+    #cl-billed .strike {
+      position: absolute;
+      left: -6px;
+      right: -6px;
+      top: 52%;
+      height: 4px;
+      background: #5d6763;
+    }
+    #cl-src {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 690px;
+      text-align: center;
+      font-size: 32px;
+      color: #5d6763;
+      white-space: nowrap;
+    }
+    #cl-src span {
+      display: inline-block;
+      margin: 0 0.14em;
+    }
+    #cl-src .k {
+      color: #1c2321;
+      font-weight: 700;
+    }
+    /* End card: the wordmark is performed in (outline wipe, then a fill rises) */
+    #cl-wm {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 360px;
+      text-align: center;
+    }
+    #cl-wm .box {
+      position: relative;
+      display: inline-block;
+      font-size: 128px;
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+    #cl-wm-line {
+      color: transparent;
+      -webkit-text-stroke: 3px #0f6e5c;
+    }
+    #cl-wm-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #0f6e5c;
+    }
+    #cl-cta {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 566px;
+      text-align: center;
+    }
+    #cl-cta .card {
+      display: inline-block;
+      padding: 18px 34px;
+      background: #ffffff;
+      border: 2px solid #e2e6e3;
+      border-radius: 12px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 40px;
+      line-height: 1.2;
+      white-space: pre;
+    }
+    #cl-note {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 700px;
+      text-align: center;
+      font-size: 28px;
+      color: #5d6763;
+    }
+  </style>
+  <div data-hf-id="hf-4xhx" id="root" data-composition-id="close" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-9bn5" id="cl-billed"><span data-hf-id="hf-iwnh" class="w">$4,445.00 billed<span data-hf-id="hf-2svb" class="strike"></span></span></div>
+    <div data-hf-id="hf-zcd5" id="cl-hero">$1,882.38</div>
+    <div data-hf-id="hf-ln1t" id="cl-src"><span data-hf-id="hf-217o" class="k">Prices:</span><span data-hf-id="hf-3k86">CMS</span><span data-hf-id="hf-earr">2026</span><span data-hf-id="hf-j3fh">Medicare</span><span data-hf-id="hf-1bmq">·</span><span data-hf-id="hf-qqxm" class="k">Ratios:</span><span data-hf-id="hf-gsnm">RAND</span><span data-hf-id="hf-fvzv">2022</span><span data-hf-id="hf-8hs6">·</span><span data-hf-id="hf-kllf" class="k">Rules:</span><span data-hf-id="hf-48de">physician-signed</span></div>
+
+    <div data-hf-id="hf-qa11" id="cl-wm"><div data-hf-id="hf-d74r" class="box"><span data-hf-id="hf-th8a" id="cl-wm-line">BillCheck</span><span data-hf-id="hf-dpr9" id="cl-wm-fill">BillCheck</span></div></div>
+    <div data-hf-id="hf-gagp" id="cl-cta"><span data-hf-id="hf-23ie" class="card" id="cl-card">github.com/DrAhmed7887/hack-paypal-ai</span></div>
+    <div data-hf-id="hf-eszk" id="cl-note">Synthetic bill · PayPal sandbox money</div>
+  </div>
+  <script>
+    (function () {
+      const vars = window.__hyperframes && window.__hyperframes.getVariables ? window.__hyperframes.getVariables() : {};
+      const card = document.getElementById("cl-card");
+      const repo = typeof vars.repo === "string" && vars.repo.length ? vars.repo : card.textContent;
+      card.textContent = "";
+      const chars = [];
+      for (const ch of repo) {
+        const s = document.createElement("span");
+        s.textContent = ch;
+        card.appendChild(s);
+        chars.push(s);
+      }
+
+      const tl = gsap.timeline({ paused: true });
+      const blurOut = (sel, at, st) =>
+        tl.to(sel, { opacity: 0, filter: "blur(8px)", duration: 0.2, stagger: st || 0, ease: "power2.in" }, at);
+
+      gsap.set("#cl-src span", { opacity: 0 });
+      gsap.set("#cl-wm-line", { clipPath: "inset(0% 100% 0% 0%)" });
+      gsap.set("#cl-wm-fill", { clipPath: "inset(100% 0% 0% 0%)" });
+      gsap.set("#cl-card", { opacity: 0, clipPath: "inset(0% 50% 0% 50% round 12px)" });
+      gsap.set(chars, { opacity: 0 });
+      gsap.set("#cl-note", { opacity: 0 });
+
+      // claim: "every rule signed by a physician" — the sources, word by word
+      tl.fromTo(
+        "#cl-src span",
+        { opacity: 0, filter: "blur(6px)" },
+        { opacity: 1, filter: "blur(0px)", duration: 0.13, stagger: 0.067, ease: "power2.out" },
+        2.0,
+      );
+
+      // end card
+      blurOut("#cl-billed, #cl-hero, #cl-src", 4.6, 0.05);
+      tl.to("#cl-wm-line", { clipPath: "inset(0% 0% 0% 0%)", duration: 0.5, ease: "power2.inOut" }, 4.85);
+      tl.to("#cl-wm-fill", { clipPath: "inset(0% 0% 0% 0%)", duration: 0.5, ease: "power2.inOut" }, 5.35);
+      tl.to("#cl-card", { opacity: 1, clipPath: "inset(0% 0% 0% 0% round 12px)", duration: 0.3, ease: "power3.out" }, 6.25);
+      chars.forEach((c, i) => tl.set(c, { opacity: 1 }, 6.5 + i * 0.03));
+      tl.fromTo("#cl-note", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, 7.8);
+
+      window.__timelines["close"] = tl;
+    })();
+  </script>
+</template>

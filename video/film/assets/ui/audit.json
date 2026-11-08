@@ -1,0 +1,97 @@
+{
+ "bill_id": "C08",
+ "provider_name": "RIVERSIDE COMMUNITY HOSPITAL (SYNTHETIC) - HOSPITAL OUTPATIENT STATEMENT",
+ "total_billed": 4445.0,
+ "line_sum": 4445.0,
+ "totals_match": true,
+ "total_suggested": 1882.38,
+ "potential_negotiation_difference": 2562.62,
+ "caveat": "A negotiation reference based on public 2026 Medicare prices and the average that private health plans paid relative to Medicare (RAND, 2022). It is not a judgement about any charge.",
+ "summary": {
+  "text": "The hospital billed a total of $4,445.00, but the audit suggests a total of $1,882.38, indicating a potential negotiation difference of $2,562.62. For the ED visit (level\u202f4) billed at $2,400.00, the audit provides a negotiation reference amount of $1,189.38, and for the CT head billed at $1,650.00, the negotiation reference amount is $298.00. The lab tests and injection were not flagged for negotiation, with amounts of $180.00, $95.00, and $120.00 respectively.",
+  "source": "ai"
+ },
+ "findings": [
+  {
+   "line_id": "L1",
+   "description": "ED visit level 4",
+   "cpt_code": "99284",
+   "billed_amount": 2400.0,
+   "benchmark_amount": 426.3,
+   "benchmark_source": "Medicare hospital outpatient payment, OPPS Addendum B (October 2026)",
+   "markup_ratio": 5.63,
+   "flag_type": "ABOVE_REFERENCE",
+   "explanation": "Billed $2,400.00, which is 5.63x the 2026 Medicare price of $426.30. Suggested negotiation amount: $1,189.38 (2.79x Medicare, what private health plans paid on average in 2022 for outpatient hospital services (RAND), compared with 2026 Medicare rates). This is a negotiation reference, not a judgement about this charge.",
+   "suggested_amount": 1189.38,
+   "evidence": [
+    "E44",
+    "E51",
+    "E55",
+    "E23"
+   ]
+  },
+  {
+   "line_id": "L2",
+   "description": "CT head",
+   "cpt_code": "70450",
+   "billed_amount": 1650.0,
+   "benchmark_amount": 106.81,
+   "benchmark_source": "Medicare hospital outpatient payment, OPPS Addendum B (October 2026)",
+   "markup_ratio": 15.45,
+   "flag_type": "ABOVE_REFERENCE",
+   "explanation": "Billed $1,650.00, which is 15.45x the 2026 Medicare price of $106.81. Suggested negotiation amount: $298.00 (2.79x Medicare, what private health plans paid on average in 2022 for outpatient hospital services (RAND), compared with 2026 Medicare rates). This is a negotiation reference, not a judgement about this charge.",
+   "suggested_amount": 298.0,
+   "evidence": [
+    "E46",
+    "E51",
+    "E55",
+    "E23"
+   ]
+  },
+  {
+   "line_id": "L3",
+   "description": "Metabolic panel",
+   "cpt_code": "80053",
+   "billed_amount": 180.0,
+   "benchmark_amount": null,
+   "benchmark_source": null,
+   "markup_ratio": null,
+   "flag_type": "PACKAGED",
+   "explanation": "Medicare pays lab tests separately only when they are the only services on the claim, so on this bill they would usually be included in other payments. Not flagged.",
+   "suggested_amount": 180.0,
+   "evidence": [
+    "E49",
+    "E50"
+   ]
+  },
+  {
+   "line_id": "L4",
+   "description": "CBC",
+   "cpt_code": "85025",
+   "billed_amount": 95.0,
+   "benchmark_amount": null,
+   "benchmark_source": null,
+   "markup_ratio": null,
+   "flag_type": "PACKAGED",
+   "explanation": "Medicare pays lab tests separately only when they are the only services on the claim, so on this bill they would usually be included in other payments. Not flagged.",
+   "suggested_amount": 95.0,
+   "evidence": [
+    "E49",
+    "E50"
+   ]
+  },
+  {
+   "line_id": "L5",
+   "description": "Injection",
+   "cpt_code": "96372",
+   "billed_amount": 120.0,
+   "benchmark_amount": null,
+   "benchmark_source": null,
+   "markup_ratio": null,
+   "flag_type": "NOT_AVAILABLE",
+   "explanation": "Benchmark not available: Medicare's separate hospital payment for this line is not confirmed.",
+   "suggested_amount": 120.0,
+   "evidence": []
+  }
+ ]
+}

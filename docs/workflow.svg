@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <title>BillCheck workflow</title>
+  <rect width="1600" height="900" fill="#f6f7f5"/>
+  <text x="60" y="78" font-size="44" font-weight="700" fill="#1c2321">BillCheck: from a medical bill to a suggested amount, paid with PayPal</text>
+  <text x="60" y="122" font-size="25" fill="#5d6763">Traced with synthetic hospital bill C08: $4,445.00 billed. Every box is a module in the repo.</text>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0f6e5c"/>
+    </marker>
+  </defs>
+
+  <!-- step boxes -->
+  <g font-size="24" fill="#1c2321">
+    <!-- 1 -->
+    <rect x="60" y="170" width="275" height="380" rx="18" fill="#ffffff" stroke="#e2e6e3" stroke-width="2"/>
+    <circle cx="100" cy="212" r="22" fill="#0f6e5c"/><text x="100" y="221" font-size="24" font-weight="700" fill="#fff" text-anchor="middle">1</text>
+    <text x="135" y="221" font-size="28" font-weight="700">Bill</text>
+    <text x="84" y="275">Pasted text, a</text>
+    <text x="84" y="305">text-based PDF,</text>
+    <text x="84" y="335">or a sample bill</text>
+    <text x="84" y="395" fill="#5d6763" font-size="22">web/app.py</text>
+    <text x="84" y="470" font-weight="700" fill="#0f6e5c">5 lines</text>
+    <text x="84" y="500" fill="#5d6763" font-size="22">$4,445.00 billed</text>
+
+    <!-- 2 -->
+    <rect x="365" y="170" width="275" height="380" rx="18" fill="#ffffff" stroke="#e2e6e3" stroke-width="2"/>
+    <circle cx="405" cy="212" r="22" fill="#0f6e5c"/><text x="405" y="221" font-size="24" font-weight="700" fill="#fff" text-anchor="middle">2</text>
+    <text x="440" y="221" font-size="28" font-weight="700">AI reader</text>
+    <text x="389" y="275">GPT-OSS 120B on</text>
+    <text x="389" y="305">Fireworks reads the</text>
+    <text x="389" y="335">lines into codes</text>
+    <text x="389" y="365">and amounts</text>
+    <text x="389" y="410" fill="#5d6763" font-size="22">extractor.py</text>
+    <text x="389" y="470" font-weight="700" fill="#0f6e5c">Refuses any code</text>
+    <text x="389" y="500" font-weight="700" fill="#0f6e5c">or $ not on the bill</text>
+
+    <!-- 3 -->
+    <rect x="670" y="170" width="275" height="380" rx="18" fill="#ffffff" stroke="#0f6e5c" stroke-width="3"/>
+    <circle cx="710" cy="212" r="22" fill="#0f6e5c"/><text x="710" y="221" font-size="24" font-weight="700" fill="#fff" text-anchor="middle">3</text>
+    <text x="745" y="221" font-size="28" font-weight="700">Audit</text>
+    <text x="694" y="275">Eligible lines vs 2026</text>
+    <text x="694" y="305">Medicare price (CMS)</text>
+    <text x="694" y="335">× a RAND aggregate</text>
+    <text x="694" y="365">category ratio</text>
+    <text x="694" y="405" fill="#5d6763" font-size="22">auditor.py</text><text x="694" y="432" fill="#5d6763" font-size="22">benchmarks.json</text>
+    <text x="694" y="470" font-weight="700" fill="#a3361f">ED visit $2,400.00</text>
+    <text x="694" y="500" font-weight="700" fill="#0f6e5c">→ $1,189.38</text>
+
+    <!-- 4 -->
+    <rect x="975" y="170" width="275" height="380" rx="18" fill="#ffffff" stroke="#e2e6e3" stroke-width="2"/>
+    <circle cx="1015" cy="212" r="22" fill="#0f6e5c"/><text x="1015" y="221" font-size="24" font-weight="700" fill="#fff" text-anchor="middle">4</text>
+    <text x="1050" y="221" font-size="28" font-weight="700">Explain</text>
+    <text x="999" y="275">AI writes a plain</text>
+    <text x="999" y="305">summary; shown only</text>
+    <text x="999" y="335">if every $ figure is</text>
+    <text x="999" y="365">in the audit</text>
+    <text x="999" y="410" fill="#5d6763" font-size="22">explainer.py</text>
+    <text x="999" y="470" font-weight="700" fill="#0f6e5c">Suggested total</text>
+    <text x="999" y="500" font-weight="700" fill="#0f6e5c">$1,882.38</text>
+
+    <!-- 5 -->
+    <rect x="1280" y="170" width="280" height="380" rx="18" fill="#ffffff" stroke="#e2e6e3" stroke-width="2"/>
+    <circle cx="1320" cy="212" r="22" fill="#0f6e5c"/><text x="1320" y="221" font-size="24" font-weight="700" fill="#fff" text-anchor="middle">5</text>
+    <text x="1355" y="221" font-size="28" font-weight="700">PayPal</text>
+    <text x="1304" y="275">Orders v2: patient</text>
+    <text x="1304" y="305">pays the server-held</text>
+    <text x="1304" y="335">amount. Invoicing v2:</text>
+    <text x="1304" y="365">invoice at suggested $</text>
+    <text x="1304" y="410" fill="#5d6763" font-size="22">paypal_client.py</text>
+    <text x="1304" y="470" font-weight="700" fill="#0f6e5c" font-size="22">Payment COMPLETED</text>
+    <text x="1304" y="500" font-weight="700" fill="#0f6e5c" font-size="22">Invoice marked paid</text>
+  </g>
+
+  <!-- arrows -->
+  <g stroke="#0f6e5c" stroke-width="4" marker-end="url(#arrow)">
+    <line x1="337" y1="360" x2="361" y2="360"/>
+    <line x1="642" y1="360" x2="666" y2="360"/>
+    <line x1="947" y1="360" x2="971" y2="360"/>
+    <line x1="1252" y1="360" x2="1276" y2="360"/>
+  </g>
+
+  <!-- physician rules band -->
+  <rect x="670" y="580" width="660" height="124" rx="16" fill="#e3f1ed"/>
+  <text x="694" y="623" font-size="25" font-weight="700" fill="#0f6e5c">Physician-signed rules (docs/DECISIONS.md)</text>
+  <text x="694" y="660" font-size="23" fill="#1c2321">Flag above 1.84× (doctor) or 2.79× (hospital) Medicare;</text>
+  <text x="694" y="688" font-size="23" fill="#1c2321">bundled or unconfirmed lines are not flagged</text>
+  <line x1="807" y1="580" x2="807" y2="552" stroke="#0f6e5c" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <!-- footer facts -->
+  <text x="60" y="770" font-size="25" fill="#1c2321"><tspan font-weight="700">Measured:</tspan> AI reader matched the scored fields on all 28 synthetic test bills (two layouts, after tuning on the same set).</text>
+  <text x="60" y="808" font-size="25" fill="#1c2321"><tspan font-weight="700">Safe by design:</tspan> amounts never come from the browser; payment and invoice steps use idempotency keys; sandbox money only.</text>
+  <text x="60" y="860" font-size="21" fill="#5d6763">Prices: CMS 2026 fee schedules. Multipliers: RAND, prices paid by private health plans (2022). A negotiation reference, not proof that a charge is incorrect.</text>
+</svg>

@@ -1,0 +1,22 @@
+{
+  "_about": "Public 2026 Medicare prices used by BillCheck. Every value cites an evidence row (E-id) in the project's evidence pack; rules are in docs/DECISIONS.md (signed v1.3).",
+  "releases": {
+    "pfs": {"label": "Medicare Physician Fee Schedule 2026 (CMS file indicators2026-09-01, conversion factor $33.4009)", "from": "2026-01-01", "to": "2026-12-31", "evidence": ["E1", "E2", "E3"]},
+    "clfs": {"label": "Medicare Clinical Laboratory Fee Schedule 2026 (Q4 release)", "from": "2026-01-01", "to": "2026-12-31", "evidence": ["E14", "E41", "E42"]},
+    "opps": {"label": "Medicare hospital outpatient payment, OPPS Addendum B (October 2026)", "from": "2026-10-01", "to": "2026-12-31", "evidence": ["E16", "E20"]}
+  },
+  "multipliers": {
+    "professional": {"value": 1.84, "evidence": ["E23"], "label": "what private health plans paid on average in 2022 for professional services linked to hospital care (RAND), compared with 2026 Medicare rates"},
+    "facility": {"value": 2.79, "evidence": ["E23"], "label": "what private health plans paid on average in 2022 for outpatient hospital services (RAND), compared with 2026 Medicare rates"}
+  },
+  "codes": {
+    "99283": {"desc": "Emergency department visit, low medical decision making", "pfs": {"global": 69.47, "evidence": "E4"}, "opps": {"si": "J2", "apc": "5023", "rate": 278.89, "evidence": "E43"}},
+    "99284": {"desc": "Emergency department visit, moderate medical decision making", "pfs": {"global": 118.24, "evidence": "E5"}, "opps": {"si": "J2", "apc": "5024", "rate": 426.30, "evidence": "E44"}},
+    "99285": {"desc": "Emergency department visit, high medical decision making", "pfs": {"global": 171.35, "evidence": "E6"}, "opps": {"si": "J2", "apc": "5025", "rate": 608.43, "evidence": "E45"}},
+    "70450": {"desc": "CT head or brain without contrast", "pfs": {"global": 106.55, "26": 39.41, "TC": 67.14, "evidence": "E7-E9"}, "opps": {"si": "Q3", "apc": "5522", "rate": 106.81, "evidence": "E46"}},
+    "71045": {"desc": "Chest X-ray, single view", "pfs": {"global": 25.38, "26": 8.35, "TC": 17.03, "evidence": "E10-E12"}, "opps": {"si": "Q3", "apc": "5521", "rate": 88.91, "evidence": "E47"}},
+    "96372": {"desc": "Injection under the skin or into muscle", "pfs": {"global": 15.36, "evidence": "E13"}, "opps": {"si": "Q1", "apc": "5692", "rate": 73.56, "evidence": "E48"}},
+    "80053": {"desc": "Comprehensive metabolic panel (blood chemistry)", "clfs": {"rate": 10.56, "evidence": "E41"}, "opps": {"si": "Q4", "evidence": "E49"}},
+    "85025": {"desc": "Complete blood count with automated differential", "clfs": {"rate": 7.77, "evidence": "E42"}, "opps": {"si": "Q4", "evidence": "E49"}}
+  }
+}

@@ -1,0 +1,12 @@
+[
+ {"id": "L1", "text": "Four thousand, four hundred forty-five dollars. Five lines on a hospital bill, and nothing tells you what any of them should cost."},
+ {"id": "L2", "text": "This is BillCheck. Paste the bill, and an AI reads each line. Code checks every number against the bill itself."},
+ {"id": "L3", "text": "Then each line it can price meets its twenty twenty-six Medicare rate."},
+ {"id": "L4", "text": "The emergency visit: twenty-four hundred billed. Medicare pays four twenty-six. Private plans paid, on average, two point seven nine times that. So the negotiation reference is eleven eighty-nine."},
+ {"id": "L5", "text": "The CT scan: sixteen fifty billed, two ninety-eight as a reference."},
+ {"id": "L6", "text": "The blood tests are usually included in the visit payment, and the injection has no confirmed benchmark. BillCheck says so, instead of guessing."},
+ {"id": "L7", "text": "What's left adds up to one thousand, eight hundred eighty-two dollars and thirty-eight cents."},
+ {"id": "L8", "text": "That amount goes straight into PayPal's sandbox checkout. The server sets it; the browser never can."},
+ {"id": "L9", "text": "Payment captured. BillCheck then issues an itemized invoice at the suggested amounts, from the provider's sandbox account, and marks it paid with this same payment."},
+ {"id": "L10", "text": "One bill. One number you can pay. And every rule signed by a physician."}
+]

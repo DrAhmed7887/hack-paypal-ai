@@ -1,0 +1,8 @@
+## Run history and limits (read before quoting any number)
+- **Run 1** (8 Nov 2026, before fixes): extraction PASS 19 / FAIL 9 of 28. Six table-layout bills (C01, C02, C05, C06, C07, C11) were refused because the model returned a `response_format` stub instead of a bill. Three letter-layout bills (C06, C09, C10) had wrong units: that version of the letter renderer wrote quantities as "x2" after descriptions that already ended in "x2". Fixes: output constrained to the bill schema; one general prompt sentence on how quantities are written; the letter renderer now writes "Qty 2". No case-specific rule was added.
+- **Run 2** (after those fixes): PASS 28 of 28; explanation ai 26 / template 2 (both C07, because the line sum was missing from the allowed figures; fixed).
+- **Latest run:** the table below, written by `scripts/g1_eval.py`, which also includes this notes file.
+- **Scope:** scored fields are claim type, date of service, stated total, and per line the code, modifier, units and amount. Description, provider name and bill number are not scored.
+- **Limits:** the 28 bills are our own synthetic bills in two layouts we wrote, and the prompt was adjusted after run 1 on this same set. These results show the pipeline works on these layouts; they do not estimate accuracy on real bills (scans or other layouts are not tested). When an AI summary fails the checks, the explainer returns the template text instead.
+
+Safe public sentence (quality manager, 8 Nov): "After tuning on the same synthetic test set, the final run matched the scored extraction fields on all 28 bills rendered in our two layouts; this does not estimate accuracy on real bills."

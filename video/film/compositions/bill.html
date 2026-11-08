@@ -1,0 +1,358 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #f6f7f5;
+      font-family: Inter, sans-serif;
+      color: #1c2321;
+    }
+    /* The real BillCheck page as a 2560 x 1800 world the camera travels across */
+    #bill-world {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 2560px;
+      height: 1800px;
+    }
+    #bill-world .ext-head {
+      position: absolute;
+      left: -3000px;
+      top: -2000px;
+      width: 8560px;
+      height: 2484px;
+      background: #ffffff;
+      border-bottom: 2px solid #e2e6e3;
+    }
+    #bill-world .ext-body {
+      position: absolute;
+      left: -3000px;
+      top: 486px;
+      width: 8560px;
+      height: 3000px;
+      background: #f6f7f5;
+    }
+    #bill-world .ext-card {
+      position: absolute;
+      left: 552px;
+      top: 1700px;
+      width: 1456px;
+      height: 600px;
+      background: #ffffff;
+      border-left: 2px solid #e2e6e3;
+      border-right: 2px solid #e2e6e3;
+    }
+    #bill-page {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 2560px;
+      height: 1800px;
+    }
+    /* The app's "Bill text" box rebuilt in place (rect measured on ui_page.png) */
+    #bill-box {
+      position: absolute;
+      left: 594px;
+      top: 1262px;
+      width: 1372px;
+      height: 386px;
+      background: #fcfdfc;
+      border: 2px solid #e2e6e3;
+      border-radius: 20px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 27.2px;
+      line-height: 39.4px;
+      color: #1c2321;
+    }
+    #bill-box .bl {
+      position: absolute;
+      left: 20px;
+      white-space: pre;
+      height: 39.4px;
+    }
+    #bill-box .band {
+      position: absolute;
+      left: 10px;
+      width: 1030px;
+      height: 39.4px;
+      border-radius: 6px;
+      background: rgba(15, 110, 92, 0.1);
+    }
+    #bill-mark {
+      position: absolute;
+      left: 944px;
+      top: 335px;
+      width: 162px;
+      height: 40px;
+      border-radius: 6px;
+      background: rgba(15, 110, 92, 0.2);
+    }
+    #bill-slot-head {
+      position: absolute;
+      left: 1094px;
+      top: 98px;
+      height: 39.4px;
+      line-height: 39.4px;
+      font-family: Inter, sans-serif;
+      font-size: 24px;
+      color: #5d6763;
+      white-space: nowrap;
+    }
+    #bill-box .slot {
+      position: absolute;
+      left: 1094px;
+      width: 250px;
+      height: 33px;
+      border: 2px dashed #a9b3af;
+      border-radius: 8px;
+      font-family: Inter, sans-serif;
+      font-size: 24px;
+      line-height: 29px;
+      text-align: center;
+      color: #5d6763;
+    }
+    /* Line rows: the app's .line card at video scale */
+    .row {
+      position: absolute;
+      left: 160px;
+      width: 1600px;
+      height: 132px;
+    }
+    .row .edge {
+      position: absolute;
+      inset: 0;
+      background: #e2e6e3;
+      border-radius: 14px;
+    }
+    .row .fill {
+      position: absolute;
+      inset: 2px;
+      background: #ffffff;
+      border-radius: 12px;
+    }
+    .row .desc {
+      position: absolute;
+      left: 40px;
+      top: 22px;
+      font-size: 44px;
+      font-weight: 700;
+      line-height: 1.1;
+      white-space: nowrap;
+    }
+    .row .code {
+      position: absolute;
+      left: 40px;
+      top: 80px;
+      font-size: 30px;
+      line-height: 1.1;
+      color: #5d6763;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      white-space: nowrap;
+    }
+    .row .chk {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #0f6e5c;
+      font-weight: 700;
+      font-size: 28px;
+    }
+    .row .chk svg {
+      width: 28px;
+      height: 28px;
+      fill: none;
+      stroke: #0f6e5c;
+      stroke-width: 3.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .row .mid {
+      position: absolute;
+      left: 860px;
+      top: 20px;
+      white-space: nowrap;
+    }
+    .row .mlabel {
+      font-size: 28px;
+      line-height: 1.1;
+      color: #5d6763;
+    }
+    .row .mval {
+      margin-top: 6px;
+      font-size: 44px;
+      font-weight: 700;
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums;
+    }
+    .row .amt {
+      position: absolute;
+      right: 40px;
+      top: 38px;
+      font-size: 52px;
+      font-weight: 700;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    #bill-scrim {
+      position: absolute;
+      inset: 0;
+      background: #f6f7f5;
+    }
+    #bill-label {
+      position: absolute;
+      left: 160px;
+      top: 118px;
+      font-size: 30px;
+      color: #5d6763;
+      white-space: nowrap;
+    }
+    #bill-label span {
+      display: inline-block;
+      margin-right: 0.28em;
+    }
+  </style>
+  <div data-hf-id="hf-yzfy" id="root" data-composition-id="bill" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-c9vt" id="bill-world">
+      <div data-hf-id="hf-3tl8" class="ext-head"></div>
+      <div data-hf-id="hf-yioa" class="ext-body"></div>
+      <div data-hf-id="hf-p1ow" class="ext-card"></div>
+      <img data-hf-id="hf-8o1u" id="bill-page" src="assets/ui/ui_page.png" alt="BillCheck page with the sample bill selected" />
+      <div data-hf-id="hf-4rbi" id="bill-box">
+        <div data-hf-id="hf-p6m8" id="bill-mark"></div>
+        <div data-hf-id="hf-pthu" class="band" id="bill-band-1" style="top: 140.2px"></div>
+        <div data-hf-id="hf-q39f" class="band" id="bill-band-2" style="top: 179.6px"></div>
+        <div data-hf-id="hf-htlx" class="band" id="bill-band-3" style="top: 219px"></div>
+        <div data-hf-id="hf-opnn" class="band" id="bill-band-4" style="top: 258.4px"></div>
+        <div data-hf-id="hf-44pb" class="band" id="bill-band-5" style="top: 297.8px"></div>
+        <div data-hf-id="hf-u2zy" class="bl" id="bill-l0" style="top: 22px">RIVERSIDE COMMUNITY HOSPITAL (SYNTHETIC) - HOSPITAL OUTPATIENT STATEMENT</div>
+        <div data-hf-id="hf-6pfs" class="bl" id="bill-l1" style="top: 61.4px">Statement: C08   Date of service: 10/15/2026</div>
+        <div data-hf-id="hf-b9cg" class="bl" id="bill-l2" style="top: 100.8px">LINE  CODE   MOD  DESCRIPTION                 UNITS      CHARGE</div>
+        <div data-hf-id="hf-7389" class="bl" id="bill-l3" style="top: 140.2px">L1    99284       ED visit level 4               1   $2,400.00</div>
+        <div data-hf-id="hf-52te" class="bl" id="bill-l4" style="top: 179.6px">L2    70450       CT head                        1   $1,650.00</div>
+        <div data-hf-id="hf-yodz" class="bl" id="bill-l5" style="top: 219px">L3    80053       Metabolic panel                1     $180.00</div>
+        <div data-hf-id="hf-u5qd" class="bl" id="bill-l6" style="top: 258.4px">L4    85025       CBC                            1      $95.00</div>
+        <div data-hf-id="hf-iwj9" class="bl" id="bill-l7" style="top: 297.8px">L5    96372       Injection                      1     $120.00</div>
+        <div data-hf-id="hf-vh2e" class="bl" id="bill-l8" style="top: 337.2px">TOTAL CHARGES                                            $4,445.00</div>
+        <div data-hf-id="hf-r6of" id="bill-slot-head">Price to compare</div>
+        <div data-hf-id="hf-pnvi" class="slot" id="bill-slot-1" style="top: 143.4px">?</div>
+        <div data-hf-id="hf-f4jy" class="slot" id="bill-slot-2" style="top: 182.8px">?</div>
+        <div data-hf-id="hf-ig4u" class="slot" id="bill-slot-3" style="top: 222.2px">?</div>
+        <div data-hf-id="hf-9bbo" class="slot" id="bill-slot-4" style="top: 261.6px">?</div>
+        <div data-hf-id="hf-ebd4" class="slot" id="bill-slot-5" style="top: 301px">?</div>
+      </div>
+    </div>
+
+    <div id="bill-scrim"></div>
+    <div data-hf-id="hf-k30n" id="bill-label"><span data-hf-id="hf-3smz">Line</span><span data-hf-id="hf-ufe3">items</span><span data-hf-id="hf-qdy9">read</span><span data-hf-id="hf-66m8">by</span><span data-hf-id="hf-cwew">GPT-OSS</span><span data-hf-id="hf-1600">120B</span><span data-hf-id="hf-dnos">on</span><span data-hf-id="hf-531l">Fireworks</span></div>
+
+    <div data-hf-id="hf-kdx0" class="row" id="bill-r1" style="top: 190px">
+      <div data-hf-id="hf-4eqf" class="edge"></div><div data-hf-id="hf-4qej" class="fill"></div>
+      <div data-hf-id="hf-euob" class="desc">ED visit level 4</div>
+      <div data-hf-id="hf-2m1m" class="code">Code 99284 <span data-hf-id="hf-48us" class="chk" id="bill-c1"><svg data-hf-id="hf-ulu9" viewBox="0 0 24 24"><path data-hf-id="hf-m2zl" d="M5 13l4 4L19 7" /></svg>matches the bill</span></div>
+      <div data-hf-id="hf-j6jm" class="mid" id="bill-m1"><div data-hf-id="hf-9j51" class="mlabel">2026 Medicare</div><div data-hf-id="hf-13w7" class="mval">$426.30</div></div>
+      <div data-hf-id="hf-ylwm" class="amt">$2,400.00</div>
+    </div>
+    <div data-hf-id="hf-gvbb" class="row" id="bill-r2" style="top: 336px">
+      <div data-hf-id="hf-013r" class="edge"></div><div data-hf-id="hf-lwnf" class="fill"></div>
+      <div data-hf-id="hf-mdk6" class="desc">CT head</div>
+      <div data-hf-id="hf-xtau" class="code">Code 70450 <span data-hf-id="hf-1rnn" class="chk" id="bill-c2"><svg data-hf-id="hf-1tol" viewBox="0 0 24 24"><path data-hf-id="hf-601h" d="M5 13l4 4L19 7" /></svg>matches the bill</span></div>
+      <div data-hf-id="hf-f8fl" class="mid" id="bill-m2"><div data-hf-id="hf-hzzt" class="mlabel">2026 Medicare</div><div data-hf-id="hf-560g" class="mval">$106.81</div></div>
+      <div data-hf-id="hf-7h10" class="amt">$1,650.00</div>
+    </div>
+    <div data-hf-id="hf-y9ly" class="row" id="bill-r3" style="top: 482px">
+      <div data-hf-id="hf-zmsq" class="edge"></div><div data-hf-id="hf-lice" class="fill"></div>
+      <div data-hf-id="hf-e4vl" class="desc">Metabolic panel</div>
+      <div data-hf-id="hf-invi" class="code">Code 80053 <span data-hf-id="hf-dkk6" class="chk" id="bill-c3"><svg data-hf-id="hf-30lo" viewBox="0 0 24 24"><path data-hf-id="hf-76yk" d="M5 13l4 4L19 7" /></svg>matches the bill</span></div>
+      <div data-hf-id="hf-af6x" class="amt">$180.00</div>
+    </div>
+    <div data-hf-id="hf-14td" class="row" id="bill-r4" style="top: 628px">
+      <div data-hf-id="hf-z8hp" class="edge"></div><div data-hf-id="hf-l41d" class="fill"></div>
+      <div data-hf-id="hf-lajj" class="desc">CBC</div>
+      <div data-hf-id="hf-c74q" class="code">Code 85025 <span data-hf-id="hf-maqd" class="chk" id="bill-c4"><svg data-hf-id="hf-2man" viewBox="0 0 24 24"><path data-hf-id="hf-6snj" d="M5 13l4 4L19 7" /></svg>matches the bill</span></div>
+      <div data-hf-id="hf-gj8y" class="amt">$95.00</div>
+    </div>
+    <div data-hf-id="hf-6ajw" class="row" id="bill-r5" style="top: 774px">
+      <div data-hf-id="hf-20mw" class="edge"></div><div data-hf-id="hf-kpqc" class="fill"></div>
+      <div data-hf-id="hf-i4yw" class="desc">Injection</div>
+      <div data-hf-id="hf-5oi7" class="code">Code 96372 <span data-hf-id="hf-yafs" class="chk" id="bill-c5"><svg data-hf-id="hf-3t7q" viewBox="0 0 24 24"><path data-hf-id="hf-7zkm" d="M5 13l4 4L19 7" /></svg>matches the bill</span></div>
+      <div data-hf-id="hf-9umz" class="amt">$120.00</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const cam = (cx, cy, s) => ({ x: 960 - cx * s, y: 540 - cy * s, scale: s });
+      const world = "#bill-world";
+      const C0 = cam(1560, 1585, 3.0); // hook: TOTAL CHARGES $4,445.00
+      const C1 = cam(1280, 1455, 1.3); // the five lines
+      const C2 = cam(1280, 720, 0.75); // the whole BillCheck page
+      const C3 = cam(1280, 1080, 0.75); // the sample chip and the bill box
+
+      // Start states
+      gsap.set(world, { transformOrigin: "0 0", ...C0, opacity: 1, filter: "blur(0px)" });
+      gsap.set("#bill-mark", { scaleX: 0, transformOrigin: "0% 50%" });
+      gsap.set("#bill-box .band", { opacity: 0 });
+      gsap.set("#bill-slot-head", { opacity: 0 });
+      gsap.set("#bill-box .slot", { opacity: 0, scaleX: 0.2, transformOrigin: "0% 50%" });
+      gsap.set(".row", { opacity: 0 });
+      gsap.set("#bill-label span", { opacity: 0 });
+      gsap.set("#root .chk", { opacity: 0, scale: 0.6, transformOrigin: "0% 50%" });
+      gsap.set("#bill-m1, #bill-m2", { opacity: 0 });
+      gsap.set("#bill-scrim", { opacity: 0 });
+
+      // 1 Hook: one marker sweep under the total as the voice says it
+      tl.to("#bill-mark", { scaleX: 1, duration: 0.55, ease: "power2.out" }, 0.35);
+
+      // 2 Tension: pull back to the five lines, then the empty "price to compare" column
+      tl.to(world, { ...C1, duration: 0.8, ease: "power2.inOut" }, 3.4);
+      tl.to("#bill-box .band", { opacity: 1, duration: 0.18, stagger: 0.08, ease: "power2.out" }, 3.6);
+      tl.to("#bill-slot-head", { opacity: 1, duration: 0.25, ease: "power2.out" }, 5.2);
+      tl.to("#bill-box .slot", { opacity: 1, scaleX: 1, duration: 0.4, stagger: 0.08, ease: "expo.out" }, 5.3);
+      tl.to("#bill-box .slot, #bill-slot-head, #bill-box .band, #bill-mark", { opacity: 0, duration: 0.25, ease: "power2.in" }, 7.9);
+
+      // 3 Reveal: pull back to the real BillCheck page, then down to the bill box
+      tl.to(world, { ...C2, duration: 0.9, ease: "power2.inOut" }, 8.5);
+      tl.to(world, { ...C3, duration: 0.9, ease: "power2.inOut" }, 10.45);
+
+      // 4 AI reads: the five lines lift out of the box and grow into line rows
+      const lineTop = (i) => (1262 + 22 + i * 39.4 - 1080) * 0.75 + 540;
+      const sc = 0.47;
+      for (let k = 0; k < 5; k++) {
+        const rowTop = 190 + k * 146;
+        const sx = 462 - 160 - 40 * sc;
+        const sy = lineTop(3 + k) - rowTop - 22 * sc;
+        tl.fromTo(
+          "#bill-r" + (k + 1),
+          { x: sx, y: sy, scale: sc, opacity: 0, transformOrigin: "0 0" },
+          { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.7, ease: "expo.out" },
+          11.85 + k * 0.06,
+        );
+        tl.to("#bill-l" + (3 + k), { opacity: 0, duration: 0.12, ease: "power2.in" }, 11.83 + k * 0.06);
+      }
+      // the page recedes behind a ground-coloured scrim so the rows are clearly in front
+      tl.to(world, { ...cam(1280, 1080, 0.68), filter: "blur(15px)", duration: 0.5, ease: "power2.in" }, 11.85);
+      tl.fromTo("#bill-scrim", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 11.85);
+      tl.set(world, { opacity: 0 }, 12.4);
+      tl.to("#bill-label span", { opacity: 1, duration: 0.13, stagger: 0.067, ease: "power2.out" }, 12.15);
+
+      // Code check: every code and amount found in the bill text
+      tl.to("#root .chk", { opacity: 1, scale: 1, duration: 0.3, stagger: 0.22, ease: "back.out(1.6)" }, 13.6);
+
+      // 5 Price: unpriceable rows step back, Medicare values land on ED and CT
+      tl.to("#bill-r3, #bill-r4, #bill-r5", { opacity: 0.45, duration: 0.4, ease: "power2.out" }, 17.4);
+      tl.fromTo(
+        "#bill-m1, #bill-m2",
+        { opacity: 0, filter: "blur(8px)" },
+        { opacity: 1, filter: "blur(0px)", duration: 0.2, stagger: 0.12, ease: "power4.out" },
+        20.4,
+      );
+      tl.to("#bill-label span", { opacity: 0, duration: 0.2, ease: "power2.in" }, 21.1);
+
+      window.__timelines["bill"] = tl;
+    })();
+  </script>
+</template>

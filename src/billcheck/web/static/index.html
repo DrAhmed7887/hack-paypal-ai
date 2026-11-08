@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BillCheck</title>
+  <meta name="description" content="Check each line of a US medical bill against public 2026 Medicare prices, then pay a negotiated amount with PayPal (sandbox).">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <p class="brand">BillCheck</p>
+      <h1>How does each line of this medical bill compare with public prices?</h1>
+      <p class="lede">BillCheck reads your bill, compares each eligible line with its 2026 Medicare price, explains the gaps in plain words (and says when no benchmark is available), and lets you pay a suggested amount with PayPal. This demo uses synthetic bills and PayPal sandbox money only.</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section id="step-bill" class="card" aria-labelledby="h-bill">
+      <h2 id="h-bill"><span class="num">1</span> Your bill</h2>
+      <p class="hint">Try a sample bill, or paste or upload your own (text or text-based PDF).</p>
+      <div id="samples" class="chips" role="list"></div>
+      <label for="bill-text" class="label">Bill text</label>
+      <textarea id="bill-text" rows="9" spellcheck="false" placeholder="Paste the itemized bill here…"></textarea>
+      <div class="row">
+        <label class="file">
+          <input id="bill-file" type="file" accept=".pdf,.txt,text/plain,application/pdf">
+          <span>Upload a file</span>
+        </label>
+        <span id="file-name" class="muted"></span>
+      </div>
+      <button id="check" class="primary" type="button">Check this bill</button>
+      <p id="bill-error" class="error" role="alert" hidden></p>
+    </section>
+
+    <section id="step-results" class="card" aria-labelledby="h-results" hidden>
+      <h2 id="h-results"><span class="num">2</span> What BillCheck found</h2>
+      <div id="summary" class="summary"></div>
+      <dl class="totals">
+        <div><dt>Billed</dt><dd id="t-billed"></dd></div>
+        <div><dt>Suggested amount</dt><dd id="t-suggested"></dd></div>
+        <div class="accent"><dt>Potential negotiation difference</dt><dd id="t-diff"></dd></div>
+      </dl>
+      <p id="mismatch" class="notice" hidden></p>
+      <ol id="lines" class="lines"></ol>
+      <p id="caveat" class="caveat"></p>
+    </section>
+
+    <section id="step-pay" class="card" aria-labelledby="h-pay" hidden>
+      <h2 id="h-pay"><span class="num">3</span> Pay the suggested amount</h2>
+      <p id="pay-text" class="hint"></p>
+      <div id="paypal-buttons"></div>
+      <p id="pay-error" class="error" role="alert" hidden></p>
+      <div id="receipt" class="receipt" hidden>
+        <p class="ok">Payment complete (sandbox)</p>
+        <dl>
+          <div><dt>Paid</dt><dd id="r-amount"></dd></div>
+          <div><dt>PayPal capture</dt><dd id="r-capture"></dd></div>
+          <div><dt>Itemized invoice (suggested amounts)</dt><dd id="r-invoice"></dd></div>
+        </dl>
+        <p id="r-note" class="muted"></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap foot">
+    <p>Prices: CMS 2026 Physician Fee Schedule, Clinical Laboratory Fee Schedule and hospital outpatient (OPPS) rates. Reference multipliers: RAND, prices paid by private health plans (2022). Rules signed by a physician; see the project's docs. Not medical, legal or financial advice.</p>
+  </footer>
+  <script src="/static/app.js"></script>
+</body>
+</html>

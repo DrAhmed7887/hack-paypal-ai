@@ -1,0 +1,511 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #f6f7f5;
+      font-family: Inter, sans-serif;
+      color: #1c2321;
+    }
+    /* Line cards: the app's .line at video scale. Each card is laid out at its largest
+       size; an edge layer and a fill layer are clipped to the row and opened to morph. */
+    .row {
+      position: absolute;
+      left: 160px;
+      width: 1600px;
+    }
+    .row .edge,
+    .row .fill {
+      position: absolute;
+      inset: 0;
+    }
+    .row .edge {
+      background: #e2e6e3;
+    }
+    .row .fill {
+      background: #ffffff;
+    }
+    .row .desc {
+      position: absolute;
+      left: 40px;
+      top: 22px;
+      font-size: 44px;
+      font-weight: 700;
+      line-height: 1.1;
+      white-space: nowrap;
+    }
+    .row .code {
+      position: absolute;
+      left: 40px;
+      top: 80px;
+      font-size: 30px;
+      line-height: 1.1;
+      color: #5d6763;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      white-space: nowrap;
+    }
+    .row .chk {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #0f6e5c;
+      font-weight: 700;
+      font-size: 28px;
+    }
+    .row .chk svg {
+      width: 28px;
+      height: 28px;
+      fill: none;
+      stroke: #0f6e5c;
+      stroke-width: 3.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .row .mid {
+      position: absolute;
+      left: 860px;
+      top: 20px;
+      white-space: nowrap;
+    }
+    .row .mlabel {
+      font-size: 28px;
+      line-height: 1.1;
+      color: #5d6763;
+    }
+    .row .mval {
+      margin-top: 6px;
+      font-size: 44px;
+      font-weight: 700;
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums;
+    }
+    .row .rbadge {
+      position: absolute;
+      left: 760px;
+      top: 44px;
+    }
+    .badge {
+      display: inline-block;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      line-height: 1.2;
+      border-radius: 999px;
+      padding: 6px 18px;
+      white-space: nowrap;
+    }
+    .b-flag {
+      background: #fbe9e5;
+      color: #a3361f;
+    }
+    .b-pack {
+      background: #eef0f6;
+      color: #34406b;
+    }
+    .b-na {
+      background: #f0f1f0;
+      color: #5d6763;
+    }
+    .amt {
+      position: absolute;
+      right: 40px;
+      top: 38px;
+      font-size: 52px;
+      font-weight: 700;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .was {
+      position: absolute;
+      right: 40px;
+      top: 12px;
+      font-size: 28px;
+      line-height: 1;
+      color: #5d6763;
+      text-decoration: line-through;
+      font-variant-numeric: tabular-nums;
+    }
+    #au-ct-old .strike {
+      position: absolute;
+      left: -4px;
+      right: -4px;
+      top: 48%;
+      height: 4px;
+      background: currentColor;
+    }
+    /* Hero content */
+    .eq {
+      position: absolute;
+      left: 40px;
+      top: 190px;
+      width: 1500px;
+      height: 360px;
+      white-space: nowrap;
+    }
+    .eq > div {
+      position: absolute;
+      top: 0;
+    }
+    .eq > div:nth-child(1) {
+      left: 0;
+    }
+    .eq > div:nth-child(2) {
+      left: 600px;
+    }
+    .eq > div:nth-child(3) {
+      left: 0;
+      top: 190px;
+    }
+    .tnum {
+      font-size: 120px;
+      font-weight: 900;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+    .tnum span {
+      display: inline-block;
+    }
+    .tnum.teal {
+      color: #0f6e5c;
+    }
+    .tlab {
+      margin-top: 12px;
+      font-size: 28px;
+      color: #5d6763;
+    }
+    .hbadge {
+      position: absolute;
+      left: 40px;
+      top: 580px;
+    }
+    #au-cav {
+      position: absolute;
+      left: 160px;
+      top: 118px;
+      font-size: 30px;
+      color: #5d6763;
+      white-space: nowrap;
+    }
+    #au-r5-exp {
+      position: absolute;
+      left: 40px;
+      top: 146px;
+      font-size: 28px;
+      color: #5d6763;
+      white-space: pre;
+    }
+    /* Rolling digit wheels (adapted from the registry's number-wheel to roll down) */
+    .wheel {
+      display: inline-flex;
+      align-items: flex-start;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+    .wheel .wc {
+      display: inline-block;
+      height: 1em;
+      line-height: 1;
+    }
+    .wheel .wcol {
+      display: inline-block;
+      height: 1em;
+      overflow: hidden;
+    }
+    .wheel .wstrip {
+      display: flex;
+      flex-direction: column;
+    }
+    .wheel .wstrip span {
+      display: block;
+      height: 1em;
+      line-height: 1;
+    }
+    /* The sum */
+    .blabel {
+      position: absolute;
+      left: 160px;
+      top: 236px;
+      font-size: 36px;
+      color: #5d6763;
+      white-space: nowrap;
+    }
+    #au-big {
+      position: absolute;
+      left: 160px;
+      top: 290px;
+      font-size: 220px;
+      font-weight: 900;
+      color: #1c2321;
+    }
+    #au-rule {
+      position: absolute;
+      left: 1340px;
+      top: 632px;
+      width: 380px;
+      height: 3px;
+      background: #1c2321;
+    }
+    #au-totals {
+      position: absolute;
+      left: 205px;
+      top: 744px;
+      width: 1509px;
+      height: 244px;
+    }
+  </style>
+  <div data-hf-id="hf-v4mq" id="root" data-composition-id="audit" data-width="1920" data-height="1080">
+    <!-- L1 ED visit -->
+    <div data-hf-id="hf-kyxt" class="row" id="au-r1" style="top: 190px; height: 660px">
+      <div data-hf-id="hf-4eqf" class="edge"></div><div data-hf-id="hf-4qej" class="fill"></div>
+      <div data-hf-id="hf-euob" class="desc">ED visit level 4</div>
+      <div data-hf-id="hf-2m1m" class="code">Code 99284 <span data-hf-id="hf-pvsk" class="chk"><svg data-hf-id="hf-ulu9" viewBox="0 0 24 24"><path data-hf-id="hf-m2zl" d="M5 13l4 4L19 7" /></svg>matches the bill</span></div>
+      <div data-hf-id="hf-wgyu" class="mid"><div data-hf-id="hf-6alg" class="mlabel" id="au-ml1">2026 Medicare</div><div data-hf-id="hf-syow" class="mval" id="au-mv1">$426.30</div></div>
+      <div data-hf-id="hf-thd5" class="rbadge" id="au-rb1"><span data-hf-id="hf-2zw8" class="badge b-flag">Above negotiation reference</span></div>
+      <div data-hf-id="hf-8qe4" class="was" id="au-was1">$2,400.00</div>
+      <div data-hf-id="hf-tqxy" class="amt wheel" id="au-amt1" data-from="$2,400.00" data-to="$1,189.38">$1,189.38</div>
+      <div data-hf-id="hf-e1ku" class="eq" id="au-eq1">
+        <div data-hf-id="hf-yeow"><div data-hf-id="hf-zstd" class="tnum" id="au-e1n1">$426.30</div><div data-hf-id="hf-5oeo" class="tlab" id="au-e1l1">2026 Medicare price</div></div>
+        <div data-hf-id="hf-y7yw"><div data-hf-id="hf-kvmu" class="tnum teal" id="au-e1n2">&times; 2.79</div><div data-hf-id="hf-z4ns" class="tlab" id="au-e1l2">RAND 2022, hospital outpatient</div></div>
+        <div data-hf-id="hf-x11t"><div data-hf-id="hf-w2j0" class="tnum"><span data-hf-id="hf-t9p4" id="au-e1s3">=</span> <span data-hf-id="hf-23uu" id="au-e1n3">$1,189.38</span></div><div data-hf-id="hf-ko9d" class="tlab" id="au-e1l3">Negotiation reference</div></div>
+      </div>
+      <div data-hf-id="hf-bm2p" class="hbadge" id="au-hb1"><span data-hf-id="hf-9g5s" class="badge b-flag">Above negotiation reference</span></div>
+    </div>
+
+    <!-- L2 CT head -->
+    <div data-hf-id="hf-xzwf" class="row" id="au-r2" style="top: 336px; height: 640px">
+      <div data-hf-id="hf-013r" class="edge"></div><div data-hf-id="hf-lwnf" class="fill"></div>
+      <div data-hf-id="hf-mdk6" class="desc">CT head</div>
+      <div data-hf-id="hf-xtau" class="code">Code 70450 <span data-hf-id="hf-tky4" class="chk"><svg data-hf-id="hf-1tol" viewBox="0 0 24 24"><path data-hf-id="hf-601h" d="M5 13l4 4L19 7" /></svg>matches the bill</span></div>
+      <div data-hf-id="hf-dkru" class="mid"><div data-hf-id="hf-iuo1" class="mlabel" id="au-ml2">2026 Medicare</div><div data-hf-id="hf-8ewa" class="mval" id="au-mv2">$106.81</div></div>
+      <div data-hf-id="hf-xfh6" class="rbadge" id="au-rb2"><span data-hf-id="hf-898p" class="badge b-flag">Above negotiation reference</span></div>
+      <div data-hf-id="hf-llw4" class="amt" id="au-ct-old">$1,650.00<div data-hf-id="hf-y2tl" class="strike" id="au-ct-strike"></div></div>
+      <div data-hf-id="hf-wwqp" class="amt wheel" id="au-amt2" style="top: 52px" data-from="$000.00" data-to="$298.00">$298.00</div>
+      <div data-hf-id="hf-a3gt" class="eq" id="au-eq2">
+        <div data-hf-id="hf-xfcu"><div data-hf-id="hf-e35r" class="tnum" id="au-e2n1">$106.81</div><div data-hf-id="hf-6bit" class="tlab" id="au-e2l1">2026 Medicare price</div></div>
+        <div data-hf-id="hf-w8fr"><div data-hf-id="hf-80s5" class="tnum teal" id="au-e2n2">&times; 2.79</div><div data-hf-id="hf-t9br" class="tlab" id="au-e2l2">RAND 2022, hospital outpatient</div></div>
+        <div data-hf-id="hf-wmqs"><div data-hf-id="hf-wrtw" class="tnum"><span data-hf-id="hf-zh7p" id="au-e2s3">=</span> <span data-hf-id="hf-1b48" id="au-e2n3">$298.00</span></div><div data-hf-id="hf-5a6k" class="tlab" id="au-e2l3">Negotiation reference</div></div>
+      </div>
+      <div data-hf-id="hf-fk6q" class="hbadge" id="au-hb2"><span data-hf-id="hf-8njq" class="badge b-flag">Above negotiation reference</span></div>
+    </div>
+
+    <!-- L3 Metabolic panel -->
+    <div data-hf-id="hf-v01d" class="row" id="au-r3" style="top: 482px; height: 132px">
+      <div data-hf-id="hf-zmsq" class="edge"></div><div data-hf-id="hf-lice" class="fill"></div>
+      <div data-hf-id="hf-e4vl" class="desc">Metabolic panel</div>
+      <div data-hf-id="hf-invi" class="code">Code 80053 <span data-hf-id="hf-se11" class="chk"><svg data-hf-id="hf-30lo" viewBox="0 0 24 24"><path data-hf-id="hf-76yk" d="M5 13l4 4L19 7" /></svg>matches the bill</span></div>
+      <div data-hf-id="hf-1dl7" class="rbadge" id="au-rb3"><span data-hf-id="hf-w6ys" class="badge b-pack">Included in visit payment</span></div>
+      <div data-hf-id="hf-vzj9" class="amt" id="au-amt3">$180.00</div>
+    </div>
+
+    <!-- L4 CBC -->
+    <div data-hf-id="hf-pyac" class="row" id="au-r4" style="top: 628px; height: 132px">
+      <div data-hf-id="hf-z8hp" class="edge"></div><div data-hf-id="hf-l41d" class="fill"></div>
+      <div data-hf-id="hf-lajj" class="desc">CBC</div>
+      <div data-hf-id="hf-c74q" class="code">Code 85025 <span data-hf-id="hf-ssc2" class="chk"><svg data-hf-id="hf-2man" viewBox="0 0 24 24"><path data-hf-id="hf-6snj" d="M5 13l4 4L19 7" /></svg>matches the bill</span></div>
+      <div data-hf-id="hf-dw3o" class="rbadge" id="au-rb4"><span data-hf-id="hf-geik" class="badge b-pack">Included in visit payment</span></div>
+      <div data-hf-id="hf-9i1p" class="amt" id="au-amt4">$95.00</div>
+    </div>
+
+    <!-- L5 Injection -->
+    <div data-hf-id="hf-sjdq" class="row" id="au-r5" style="top: 774px; height: 216px">
+      <div data-hf-id="hf-20mw" class="edge"></div><div data-hf-id="hf-kpqc" class="fill"></div>
+      <div data-hf-id="hf-i4yw" class="desc">Injection</div>
+      <div data-hf-id="hf-5oi7" class="code">Code 96372 <span data-hf-id="hf-urv7" class="chk"><svg data-hf-id="hf-3t7q" viewBox="0 0 24 24"><path data-hf-id="hf-7zkm" d="M5 13l4 4L19 7" /></svg>matches the bill</span></div>
+      <div data-hf-id="hf-enrh" class="rbadge" id="au-rb5"><span data-hf-id="hf-eoev" class="badge b-na">Benchmark not available</span></div>
+      <div data-hf-id="hf-j0rx" class="amt" id="au-amt5">$120.00</div>
+      <div data-hf-id="hf-aqke" id="au-r5-exp">Benchmark not available: Medicare's separate hospital payment for this line is not confirmed.</div>
+    </div>
+
+    <div data-hf-id="hf-t6x3" id="au-cav">A negotiation reference, not a judgement about any charge</div>
+
+    <!-- The sum -->
+    <div data-hf-id="hf-xmcc" class="blabel" id="au-bl1">Billed</div>
+    <div data-hf-id="hf-vomu" class="blabel" id="au-bl2">Suggested amount</div>
+    <div data-hf-id="hf-dxz2" class="wheel" id="au-big" data-from="$4,445.00" data-to="$1,882.38">$1,882.38</div>
+    <div data-hf-id="hf-dway" id="au-rule"></div>
+    <img data-hf-id="hf-pm31" id="au-totals" src="assets/ui/ui_totals.png" alt="Billed $4,445.00, Suggested amount $1,882.38, Potential negotiation difference $2,562.62" />
+  </div>
+  <script>
+    (function () {
+      // ---- build: digit wheels and typed characters (deterministic, before the timeline)
+      function buildWheel(el) {
+        const from = el.dataset.from;
+        const to = el.dataset.to;
+        el.textContent = "";
+        el.setAttribute("data-layout-allow-overflow", "");
+        for (let i = 0; i < to.length; i++) {
+          const b = to[i];
+          if (!/\d/.test(b)) {
+            const s = document.createElement("span");
+            s.className = "wc";
+            s.textContent = b;
+            el.appendChild(s);
+            continue;
+          }
+          const fa = Number(from[i]);
+          const fb = Number(b);
+          const n = (((fa - fb) % 10) + 10) % 10;
+          const col = document.createElement("span");
+          col.className = "wcol";
+          col.setAttribute("data-layout-ignore", "");
+          const strip = document.createElement("span");
+          strip.className = "wstrip";
+          for (let j = 0; j <= n; j++) {
+            const d = document.createElement("span");
+            d.textContent = String((fb + j) % 10);
+            strip.appendChild(d);
+          }
+          strip.dataset.n = String(n);
+          col.appendChild(strip);
+          el.appendChild(col);
+        }
+      }
+      ["au-amt1", "au-amt2", "au-big"].forEach((id) => buildWheel(document.getElementById(id)));
+      const strips = (id) => Array.from(document.querySelectorAll("#" + id + " .wstrip"));
+      const startY = (s) => -(Number(s.dataset.n) * 100) / (Number(s.dataset.n) + 1);
+      const exp = document.getElementById("au-r5-exp");
+      const expText = exp.textContent;
+      exp.textContent = "";
+      const expChars = [];
+      for (const ch of expText) {
+        const s = document.createElement("span");
+        s.textContent = ch;
+        exp.appendChild(s);
+        expChars.push(s);
+      }
+
+      const tl = gsap.timeline({ paused: true });
+      const clip = (cut, pad, r) => `inset(${pad}px ${pad}px ${cut + pad}px ${pad}px round ${r}px)`;
+      const H = { 1: 660, 2: 640, 3: 132, 4: 132, 5: 216 };
+      const setRow = (k, at) => {
+        tl.set("#au-r" + k + " .edge", { clipPath: clip(H[k] - 132, 0, 14) }, at);
+        tl.set("#au-r" + k + " .fill", { clipPath: clip(H[k] - 132, 2, 12) }, at);
+      };
+      const openRow = (k, at, dur) => {
+        tl.to("#au-r" + k + " .edge", { clipPath: clip(0, 0, 20), duration: dur, ease: "power3.inOut" }, at);
+        tl.to("#au-r" + k + " .fill", { clipPath: clip(0, 2, 18), duration: dur, ease: "power3.inOut" }, at);
+      };
+      const closeRow = (k, at, dur) => {
+        tl.to("#au-r" + k + " .edge", { clipPath: clip(H[k] - 132, 0, 14), duration: dur, ease: "power3.inOut" }, at);
+        tl.to("#au-r" + k + " .fill", { clipPath: clip(H[k] - 132, 2, 12), duration: dur, ease: "power3.inOut" }, at);
+      };
+      const blurIn = (sel, at, d) =>
+        tl.fromTo(sel, { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: d || 0.18, ease: "power4.out" }, at);
+      const pop = (sel, at) =>
+        tl.fromTo(sel, { opacity: 0, scale: 0.6, transformOrigin: "0% 50%" }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(1.6)" }, at);
+      const out = (sel, at) => tl.to(sel, { opacity: 0, filter: "blur(6px)", duration: 0.2, ease: "power2.in" }, at);
+      const carry = (sel, at, dx, dy, s) => {
+        tl.fromTo(sel, { x: dx, y: dy, scale: s, opacity: 1, transformOrigin: "0 0" }, { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.6, ease: "power3.inOut", immediateRender: false }, at);
+        tl.to(sel, { filter: "blur(6px)", duration: 0.3, ease: "power2.in" }, at);
+        tl.to(sel, { filter: "blur(0px)", duration: 0.3, ease: "power2.out" }, at + 0.3);
+      };
+      const roll = (id, at, dur) =>
+        strips(id)
+          .reverse()
+          .forEach((s, i) => tl.fromTo(s, { yPercent: startY(s) }, { yPercent: 0, duration: dur, ease: "power3.out" }, at + i * 0.05));
+
+      // ---- start state = the bill scene's last frame
+      [1, 2, 3, 4, 5].forEach((k) => setRow(k, 0));
+      gsap.set("#au-r3, #au-r4, #au-r5", { opacity: 0.45 });
+      gsap.set(
+        "#au-rb1, #au-rb2, #au-rb3, #au-rb4, #au-rb5, #au-was1, #au-amt2, #au-eq1 .tnum, #au-eq1 .tlab, #au-eq2 .tnum, #au-eq2 .tlab, #au-e1s3, #au-e1n3, #au-e2s3, #au-e2n3, #au-hb1, #au-cav, #au-hb2, .blabel, #au-big, #au-totals",
+        { opacity: 0 },
+      );
+      gsap.set("#au-eq1 .tnum, #au-eq2 .tnum", { opacity: 1 });
+      gsap.set("#au-e1n1, #au-e1n2, #au-e2n1, #au-e2n2", { opacity: 0 });
+      gsap.set(expChars, { opacity: 0 });
+      gsap.set("#au-ct-strike", { scaleX: 0, transformOrigin: "0% 50%" });
+      gsap.set("#au-rule", { scaleX: 0, transformOrigin: "100% 50%" });
+      strips("au-amt1").forEach((s) => gsap.set(s, { yPercent: startY(s) }));
+      strips("au-amt2").forEach((s) => gsap.set(s, { yPercent: startY(s) }));
+      strips("au-big").forEach((s) => gsap.set(s, { yPercent: startY(s) }));
+
+      // ---- ED visit (local = abs - 21.6; anchors from the continuous take)
+      tl.to("#au-r2, #au-r3, #au-r4, #au-r5", { y: 60, opacity: 0, filter: "blur(8px)", duration: 0.35, stagger: 0.04, ease: "power3.in" }, 0.35);
+      openRow(1, 0.4, 0.7);
+      tl.to("#au-amt1", { color: "#a3361f", scale: 1.25, transformOrigin: "100% 50%", duration: 0.4, ease: "expo.out" }, 1.85);
+      tl.set("#au-mv1", { opacity: 0 }, 3.5);
+      tl.to("#au-ml1", { opacity: 0, duration: 0.2, ease: "power2.in" }, 3.5);
+      carry("#au-e1n1", 3.5, 820, -133, 0.367);
+      blurIn("#au-e1l1", 4.05);
+      tl.fromTo("#au-e1n2", { opacity: 0, scale: 1.3, filter: "blur(8px)", transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.3, ease: "expo.out" }, 7.55);
+      blurIn("#au-e1l2", 5.6, 0.2);
+      blurIn("#au-e1s3, #au-e1l3", 10.0, 0.2);
+      blurIn("#au-e1n3", 12.85);
+      // the amount itself rolls down to the reference
+      blurIn("#au-was1", 12.9);
+      tl.to("#au-amt1", { y: 14, duration: 0.3, ease: "power2.out" }, 12.9);
+      roll("au-amt1", 12.9, 1.0);
+      tl.to("#au-amt1", { color: "#1c2321", scale: 1, duration: 0.4, ease: "power2.out" }, 13.7);
+      pop("#au-hb1", 13.95);
+      blurIn("#au-cav", 14.15, 0.2);
+      out("#au-eq1 .tnum, #au-eq1 .tlab, #au-hb1", 14.5);
+      closeRow(1, 14.65, 0.5);
+      pop("#au-rb1", 15.05);
+
+      // ---- CT head
+      tl.fromTo("#au-r2", { y: 60, opacity: 0, filter: "blur(8px)" }, { y: 0, opacity: 1, filter: "blur(0px)", duration: 0.45, ease: "expo.out", immediateRender: false }, 15.0);
+      openRow(2, 15.3, 0.55);
+      tl.to("#au-ct-old", { color: "#a3361f", scale: 1.25, transformOrigin: "100% 0%", duration: 0.4, ease: "expo.out" }, 15.5);
+      tl.set("#au-mv2", { opacity: 0 }, 16.0);
+      tl.to("#au-ml2", { opacity: 0, duration: 0.2, ease: "power2.in" }, 16.0);
+      carry("#au-e2n1", 16.0, 820, -133, 0.367);
+      blurIn("#au-e2l1", 16.5);
+      tl.fromTo("#au-e2n2", { opacity: 0, scale: 1.3, filter: "blur(8px)", transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.3, ease: "expo.out" }, 16.6);
+      blurIn("#au-e2l2", 16.7);
+      blurIn("#au-e2s3, #au-e2l3", 17.0, 0.2);
+      blurIn("#au-e2n3", 17.65);
+      tl.to("#au-ct-strike", { scaleX: 1, duration: 0.25, ease: "power2.out" }, 17.75);
+      tl.to("#au-ct-old", { y: -26, scale: 0.54, color: "#5d6763", duration: 0.4, ease: "power3.inOut" }, 18.0);
+      tl.to("#au-amt2", { opacity: 1, duration: 0.15, ease: "power2.out" }, 18.05);
+      roll("au-amt2", 18.05, 0.9);
+      pop("#au-hb2", 18.95);
+      out("#au-eq2 .tnum, #au-eq2 .tlab, #au-hb2", 19.6);
+      closeRow(2, 19.75, 0.5);
+      pop("#au-rb2", 20.15);
+
+      // ---- Labs and injection: not flagged, and BillCheck says why (they slide back in from the right)
+      tl.fromTo(
+        "#au-r3, #au-r4, #au-r5",
+        { x: 90, y: 0, opacity: 0, filter: "blur(8px)" },
+        { x: 0, y: 0, opacity: 1, filter: "blur(0px)", duration: 0.5, stagger: 0.08, ease: "expo.out", immediateRender: false },
+        20.25,
+      );
+      pop("#au-rb3", 21.6);
+      pop("#au-rb4", 21.68);
+      pop("#au-rb5", 24.95);
+      openRow(5, 26.45, 0.4);
+      expChars.forEach((c, i) => tl.set(c, { opacity: 1 }, 26.5 + i * 0.0137));
+
+      // ---- The sum: every row but its amount dissolves; the amounts stack, larger
+      out(
+        "#au-r1 .edge, #au-r1 .fill, #au-r1 .desc, #au-r1 .code, #au-rb1, #au-was1, " +
+          "#au-r2 .edge, #au-r2 .fill, #au-r2 .desc, #au-r2 .code, #au-rb2, #au-ct-old, " +
+          "#au-r3 .edge, #au-r3 .fill, #au-r3 .desc, #au-r3 .code, #au-rb3, " +
+          "#au-r4 .edge, #au-r4 .fill, #au-r4 .desc, #au-r4 .code, #au-rb4, " +
+          "#au-r5 .edge, #au-r5 .fill, #au-r5 .desc, #au-r5 .code, #au-rb5, #au-r5-exp, #au-cav",
+        29.7,
+      );
+      const amtTop = { 1: 190 + 38, 2: 336 + 52, 3: 482 + 38, 4: 628 + 38, 5: 774 + 38 };
+      [1, 2, 3, 4, 5].forEach((k, i) => {
+        const target = 250 + i * 76;
+        tl.set("#au-amt" + k, { transformOrigin: "100% 0%" }, 29.79);
+        tl.to("#au-amt" + k, { y: target - amtTop[k], scale: 1.2, duration: 0.6, ease: "power3.inOut" }, 29.8 + i * 0.05);
+      });
+      blurIn("#au-bl1, #au-big", 30.1, 0.2);
+      tl.to("#au-rule", { scaleX: 1, duration: 0.35, ease: "power2.out" }, 30.4);
+      roll("au-big", 30.6, 0.95);
+      tl.to("#au-big", { color: "#0f6e5c", duration: 0.25, ease: "power2.out" }, 31.75);
+      out("#au-bl1", 31.75);
+      blurIn("#au-bl2", 31.9);
+      tl.fromTo("#au-totals", { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "expo.out" }, 33.0);
+      tl.to("#au-amt1, #au-amt2, #au-amt3, #au-amt4, #au-amt5, #au-rule, #au-totals", { opacity: 0, filter: "blur(8px)", duration: 0.3, ease: "power2.in" }, 35.35);
+
+      window.__timelines["audit"] = tl;
+    })();
+  </script>
+</template>

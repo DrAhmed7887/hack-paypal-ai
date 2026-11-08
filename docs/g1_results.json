@@ -1,0 +1,259 @@
+{
+ "run_at": "2026-11-08 14:06 UTC",
+ "model": "accounts/fireworks/models/gpt-oss-120b",
+ "spent_usd": 0.01905,
+ "rows": [
+  {
+   "case": "C01",
+   "layout": "table",
+   "result": "PASS",
+   "diff": "",
+   "explanation": "ai",
+   "explanation_reason": "",
+   "seconds": 4.7
+  },
+  {
+   "case": "C01",
+   "layout": "letter",
+   "result": "PASS",
+   "diff": "",
+   "explanation": "ai",
+   "explanation_reason": "",
+   "seconds": 3.3
+  },
+  {
+   "case": "C02",
+   "layout": "table",
+   "result": "PASS",
+   "diff": "",
+   "explanation": "ai",
+   "explanation_reason": "",
+   "seconds": 3.5
+  },
+  {
+   "case": "C02",
+   "layout": "letter",
+   "result": "PASS",
+   "diff": "",
+   "explanation": "ai",
+   "explanation_reason": "",
+   "seconds": 2.9
+  },
+  {
+   "case": "C03",
+   "layout": "table",
+   "result": "PASS",
+   "diff": "",
+   "explanation": "ai",
+   "explanation_reason": "",
+   "seconds": 3.1
+  },
+  {
+   "case": "C03",
+   "layout": "letter",
+   "result": "PASS",
+   "diff": "",
+   "explanation": "ai",
+   "explanation_reason": "",
+   "seconds": 3.5
+  },
+  {
+   "case": "C04",
+   "layout": "table",
+   "result": "PASS",
+   "diff": "",
+   "explanation": "ai",
+   "explanation_reason": "",
+   "seconds": 3.4
+  },
+  {
+   "case": "C04",
+   "layout": "letter",
+   "result": "PASS",
+   "diff": "",
+   "explanation": "ai",
+   "explanation_reason": "",
+   "seconds": 3.6
+  },
+  {
+   "case": "C05",
+   "layout": "table",
+   "result": "PASS",
+   "diff": "",
+   "explanation": "ai",
+   "explanation_reason": "",
+   "seconds": 7.0
+  },
+  {
+   "case": "C05",
+   "layout": "letter",
+   "result": "PASS",
+   "diff": "",
+   "explanation": "ai",
+   "explanation_reason": "",
+   "seconds": 5.8
+  },
+  {
+   "case": "C06",
+   "layout": "table",
+   "result": "PASS",
+   "diff": "",
+   "explanation": "ai",
+   "explanation_reason": "",
+   "seconds": 7.0
+  },
+  {
+   "case": "C06",
+   "layout": "letter",
+   "result": "PASS",
+   "diff": "",
+   "explanation": "ai",
+   "explanation_reason": "",
+   "seconds": 3.9
+  },
+  {
+   "case": "C07",
+   "layout": "table",
+   "result": "PASS",
+   "diff": "",
+   "explanation": "ai",
+   "explanation_reason": "",
+   "seconds": 4.1
+  },
+  {
+   "case": "C07",
+   "layout": "letter",
+   "result": "PASS",
+   "diff": "",
+   "explanation": "ai",
+   "explanation_reason": "",
+   "seconds": 5.4
+  },
+  {
+   "case": "C08",
+   "layout": "table",
+   "result": "PASS",
+   "diff": "",
+   "explanation": "template",
+   "explanation_reason": "amount not in the report: $395.00",
+   "seconds": 4.5
+  },
+  {
+   "case": "C08",
+   "layout": "letter",
+   "result": "PASS",
+   "diff": "",
+   "explanation": "ai",
+   "explanation_reason": "",
+   "seconds": 6.0
+  },
+  {
+   "case": "C09",
+   "layout": "table",
+   "result": "PASS",
+   "diff": "",
+   "explanation": "ai",
+   "explanation_reason": "",
+   "seconds": 3.1
+  },
+  {
+   "case": "C09",
+   "layout": "letter",
+   "result": "PASS",
+   "diff": "",
+   "explanation": "ai",
+   "explanation_reason": "",
+   "seconds": 3.5
+  },
+  {
+   "case": "C10",
+   "layout": "table",
+   "result": "PASS",
+   "diff": "",
+   "explanation": "ai",
+   "explanation_reason": "",
+   "seconds": 4.7
+  },
+  {
+   "case": "C10",
+   "layout": "letter",
+   "result": "PASS",
+   "diff": "",
+   "explanation": "ai",
+   "explanation_reason": "",
+   "seconds": 4.2
+  },
+  {
+   "case": "C11",
+   "layout": "table",
+   "result": "PASS",
+   "diff": "",
+   "explanation": "ai",
+   "explanation_reason": "",
+   "seconds": 3.5
+  },
+  {
+   "case": "C11",
+   "layout": "letter",
+   "result": "PASS",
+   "diff": "",
+   "explanation": "ai",
+   "explanation_reason": "",
+   "seconds": 3.7
+  },
+  {
+   "case": "C12",
+   "layout": "table",
+   "result": "PASS",
+   "diff": "",
+   "explanation": "ai",
+   "explanation_reason": "",
+   "seconds": 6.1
+  },
+  {
+   "case": "C12",
+   "layout": "letter",
+   "result": "PASS",
+   "diff": "",
+   "explanation": "ai",
+   "explanation_reason": "",
+   "seconds": 3.7
+  },
+  {
+   "case": "C13",
+   "layout": "table",
+   "result": "PASS",
+   "diff": "",
+   "explanation": "ai",
+   "explanation_reason": "",
+   "seconds": 3.4
+  },
+  {
+   "case": "C13",
+   "layout": "letter",
+   "result": "PASS",
+   "diff": "",
+   "explanation": "ai",
+   "explanation_reason": "",
+   "seconds": 3.5
+  },
+  {
+   "case": "C14",
+   "layout": "table",
+   "result": "PASS",
+   "diff": "",
+   "explanation": "ai",
+   "explanation_reason": "",
+   "seconds": 3.8
+  },
+  {
+   "case": "C14",
+   "layout": "letter",
+   "result": "PASS",
+   "diff": "",
+   "explanation": "ai",
+   "explanation_reason": "",
+   "seconds": 4.1
+  }
+ ]
+}

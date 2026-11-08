@@ -1,0 +1,6 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {"name": "billcheck", "runtimeExecutable": "scripts/serve.sh", "runtimeArgs": ["8000"], "port": 8000}
+  ]
+}

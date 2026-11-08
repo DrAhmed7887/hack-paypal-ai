@@ -1,0 +1,44 @@
+{
+ "capture": {
+  "id": "7S418104999615141",
+  "status": "COMPLETED",
+  "amount": {
+   "currency_code": "USD",
+   "value": "1882.38"
+  }
+ },
+ "invoice": {
+  "id": "INV2-XHCY-DEEH-BAPG-WFBR",
+  "status": "MARKED_AS_PAID",
+  "amount": "1882.38",
+  "paid": "1882.38",
+  "items": [
+   {
+    "name": "ED visit level 4 (99284)",
+    "description": "Billed $2,400.00; adjusted to the negotiation reference (2026 Medicare $426.30 x RAND multiplier).",
+    "amount": "1189.38"
+   },
+   {
+    "name": "CT head (70450)",
+    "description": "Billed $1,650.00; adjusted to the negotiation reference (2026 Medicare $106.81 x RAND multiplier).",
+    "amount": "298.00"
+   },
+   {
+    "name": "Metabolic panel (80053)",
+    "description": "Billed $180.00; unchanged.",
+    "amount": "180.00"
+   },
+   {
+    "name": "CBC (85025)",
+    "description": "Billed $95.00; unchanged.",
+    "amount": "95.00"
+   },
+   {
+    "name": "Injection (96372)",
+    "description": "Billed $120.00; unchanged.",
+    "amount": "120.00"
+   }
+  ],
+  "note": "Itemized invoice at suggested amounts, prepared with BillCheck. Adjusted lines use a negotiation reference based on public 2026 Medicare prices and the average private health plans paid relative to Medicare (RAND, 2022). Originally billed: $4,445.00."
+ }
+}

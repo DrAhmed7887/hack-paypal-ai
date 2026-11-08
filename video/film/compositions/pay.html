@@ -1,0 +1,234 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #f6f7f5;
+      font-family: Inter, sans-serif;
+      color: #1c2321;
+    }
+    .wheel {
+      display: inline-flex;
+      align-items: flex-start;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+    .wheel .wc,
+    .wheel .wd {
+      display: inline-block;
+      height: 1em;
+      line-height: 1;
+    }
+    #pa-label {
+      position: absolute;
+      left: 160px;
+      top: 236px;
+      font-size: 36px;
+      color: #5d6763;
+      white-space: nowrap;
+    }
+    #pa-big {
+      position: absolute;
+      left: 160px;
+      top: 290px;
+      font-size: 220px;
+      font-weight: 900;
+      color: #0f6e5c;
+      z-index: 5;
+    }
+    #pa-card {
+      position: absolute;
+      left: 232px;
+      top: 420px;
+      width: 1456px;
+      height: 506px;
+    }
+    #pa-card img {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1456px;
+      height: 506px;
+    }
+    #pa-yellow {
+      position: absolute;
+      inset: 0;
+      background: #ffc439;
+    }
+    #pa-co {
+      position: absolute;
+      inset: 0;
+      background: #ffffff;
+      overflow: hidden;
+    }
+    #pa-cam {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: 1080px;
+    }
+    #pa-bar {
+      position: absolute;
+      left: -2000px;
+      top: 90px;
+      width: 6000px;
+      height: 135px;
+      background: #f7f5f0;
+    }
+    #pa-crop {
+      position: absolute;
+      left: 250px;
+      top: 90px;
+      width: 1420px;
+      height: 1437px;
+      overflow: hidden;
+    }
+    #pa-crop img {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1420px;
+      height: 1875px;
+    }
+    #pa-under {
+      position: absolute;
+      left: 1194px;
+      top: 196px;
+      width: 208px;
+      height: 5px;
+      border-radius: 3px;
+      background: #0f6e5c;
+    }
+    #pa-lead {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: visible;
+    }
+    #pa-lead path {
+      fill: none;
+      stroke: #0f6e5c;
+      stroke-width: 4;
+      stroke-linecap: round;
+    }
+    #pa-call {
+      position: absolute;
+      left: 1440px;
+      top: 300px;
+      width: 384px;
+      padding: 26px 28px;
+      background: #ffffff;
+      border: 2px solid #e2e6e3;
+      border-radius: 14px;
+    }
+    #pa-call .c1 {
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+    #pa-call .c2 {
+      margin-top: 14px;
+      font-size: 28px;
+      line-height: 1.3;
+      color: #5d6763;
+    }
+    #pa-test {
+      position: absolute;
+      left: 1440px;
+      top: 990px;
+      width: 384px;
+      font-size: 28px;
+      line-height: 1.3;
+      color: #5d6763;
+    }
+  </style>
+  <div data-hf-id="hf-wfe3" id="root" data-composition-id="pay" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-kfpg" id="pa-label">Suggested amount</div>
+    <div data-hf-id="hf-mzyn" id="pa-card"><img data-hf-id="hf-4dj9" src="assets/ui/ui_pay.png" alt="BillCheck: Pay the suggested amount, with the PayPal buttons" /></div>
+    <div data-hf-id="hf-qgpn" class="wheel" id="pa-big"><span data-hf-id="hf-cjgd" class="wc">$</span><span data-hf-id="hf-jnzj" class="wd">1</span><span data-hf-id="hf-fpwl" class="wc">,</span><span data-hf-id="hf-gvuc" class="wd">8</span><span data-hf-id="hf-ztjg" class="wd">8</span><span data-hf-id="hf-j9oi" class="wd">2</span><span data-hf-id="hf-kkhr" class="wc">.</span><span data-hf-id="hf-ivdh" class="wd">3</span><span data-hf-id="hf-ymmd" class="wd">8</span></div>
+    <div data-hf-id="hf-k0et" id="pa-yellow"></div>
+    <div data-hf-id="hf-40s7" id="pa-co">
+      <div data-hf-id="hf-w7by" id="pa-cam">
+        <div data-hf-id="hf-tzpg" id="pa-bar"></div>
+        <div data-hf-id="hf-cxy3" id="pa-crop"><img data-hf-id="hf-rlgw" src="assets/ui/pp_checkout.png" alt="PayPal guest checkout for $1,882.38, sandbox test card" /></div>
+        <div data-hf-id="hf-uz0l" id="pa-under"></div>
+        <svg data-hf-id="hf-rrws" id="pa-lead" viewBox="0 0 1920 1080"><path data-hf-id="hf-vs78" id="pa-lead-path" d="M1300 206 C1330 260 1380 300 1440 330" pathLength="100" /></svg>
+        <div data-hf-id="hf-yn89" id="pa-call">
+          <div data-hf-id="hf-ol50" class="c1" id="pa-c1">Amount set by the BillCheck server</div>
+          <div data-hf-id="hf-yq40" class="c2" id="pa-c2">PayPal Orders v2: fixed server-side</div>
+        </div>
+        <div data-hf-id="hf-iuuf" id="pa-test">PayPal's published sandbox test card</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const blurIn = (sel, at, d) =>
+        tl.fromTo(sel, { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: d || 0.18, ease: "power4.out" }, at);
+      const out = (sel, at) => tl.to(sel, { opacity: 0, filter: "blur(6px)", duration: 0.2, ease: "power2.in" }, at);
+
+      // start: the sum scene's last frame (label + $1,882.38)
+      gsap.set("#pa-card", { opacity: 0, y: 120, transformOrigin: "462px 231px" });
+      gsap.set("#pa-yellow", { opacity: 0 });
+      gsap.set("#pa-co", { opacity: 0, y: 700 });
+      gsap.set("#pa-cam", { transformOrigin: "0 0", x: 0, y: 0, scale: 1 });
+      gsap.set("#pa-under", { scaleX: 0, transformOrigin: "0% 50%" });
+      gsap.set("#pa-lead-path", { strokeDasharray: "100 120", strokeDashoffset: 110 });
+      gsap.set("#pa-call", { opacity: 0 });
+      gsap.set("#pa-c1, #pa-c2, #pa-test", { opacity: 0 });
+      gsap.set("#pa-big", { transformOrigin: "0 0", x: 0, y: 0, scale: 1, opacity: 1 });
+
+      // the number makes room; the real pay card rises
+      out("#pa-label", 0.1);
+      tl.to("#pa-big", { x: 72, y: -150, scale: 0.45, duration: 0.6, ease: "power3.inOut" }, 0.2);
+      tl.to("#pa-card", { opacity: 1, y: 0, duration: 0.6, ease: "expo.out" }, 0.3);
+
+      // "goes straight into" PayPal: the number arcs into the yellow button and presses it
+      tl.to("#pa-big", { x: 454, duration: 0.5, ease: "power2.out" }, 1.15);
+      tl.to("#pa-big", { y: 336, scale: 0.14, duration: 0.5, ease: "power2.in" }, 1.15);
+      tl.to("#pa-big", { filter: "blur(8px)", duration: 0.25, ease: "power2.in" }, 1.15);
+      tl.to("#pa-big", { filter: "blur(0px)", duration: 0.2, ease: "power2.out" }, 1.4);
+      tl.to("#pa-big", { opacity: 0, duration: 0.08, ease: "none" }, 1.59);
+      tl.to("#pa-card", { scale: 0.975, duration: 0.08, ease: "power2.in" }, 1.65);
+      tl.to("#pa-card", { scale: 1, duration: 0.15, ease: "power2.out" }, 1.73);
+
+      // zoom through the button: its yellow becomes the frame
+      tl.to("#pa-card", { scale: 14, duration: 0.35, ease: "power3.in" }, 2.2);
+      tl.to("#pa-card", { filter: "blur(6px)", duration: 0.35, ease: "power3.in" }, 2.2);
+      tl.to("#pa-yellow", { opacity: 1, duration: 0.1, ease: "power2.in" }, 2.45);
+
+      // PayPal's real checkout whips up and settles
+      tl.fromTo(
+        "#pa-co",
+        { opacity: 0, y: 700, scale: 1.04, filter: "blur(12px)" },
+        { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 0.45, ease: "expo.out", immediateRender: false },
+        2.55,
+      );
+
+      // "the server sets it": the amount is tied to the server
+      tl.to("#pa-under", { scaleX: 1, duration: 0.3, ease: "power2.out" }, 4.5);
+      tl.to("#pa-lead-path", { strokeDashoffset: 0, duration: 0.35, ease: "power2.inOut" }, 4.6);
+      tl.fromTo("#pa-call", { opacity: 0, clipPath: "inset(0px 0px 100% 0px round 14px)" }, { opacity: 1, clipPath: "inset(0px 0px 0% 0px round 14px)", duration: 0.35, ease: "power3.out" }, 4.75);
+      blurIn("#pa-c1", 4.85);
+      blurIn("#pa-c2", 4.95);
+      out("#pa-under, #pa-lead, #pa-call", 7.0);
+
+      // look down at the filled sandbox test card, then back up
+      tl.to("#pa-cam", { y: -330, duration: 0.75, ease: "power2.inOut" }, 7.1);
+      blurIn("#pa-test", 7.35, 0.2);
+      out("#pa-test", 8.85);
+      tl.to("#pa-cam", { y: 0, duration: 0.4, ease: "power2.inOut" }, 8.9);
+
+      // punch into PayPal's $1,882.38: the cut lands on the same number
+      tl.to("#pa-cam", { x: 960 - 1298 * 3.2, y: 540 - 161 * 3.2, scale: 3.2, duration: 0.4, ease: "power3.in" }, 9.35);
+      tl.to("#pa-cam", { filter: "blur(10px)", duration: 0.4, ease: "power3.in" }, 9.35);
+
+      window.__timelines["pay"] = tl;
+    })();
+  </script>
+</template>

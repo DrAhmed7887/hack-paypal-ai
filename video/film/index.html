@@ -1,0 +1,123 @@
+<!doctype html>
+<html
+  lang="en"
+  data-composition-variables='[
+    {"id":"repo","type":"string","label":"Repository (end card)","default":"github.com/DrAhmed7887/hack-paypal-ai"}
+  ]'
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      :root {
+        --ground: #f6f7f5;
+        --card: #ffffff;
+        --ink: #1c2321;
+        --muted: #5d6763;
+        --line: #e2e6e3;
+        --accent: #0f6e5c;
+        --accent-soft: #e3f1ed;
+        --flag: #a3361f;
+        --flag-soft: #fbe9e5;
+        --font-display: Inter;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--ground);
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        background: var(--ground);
+        font-family: var(--font-display);
+      }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-bjo1"
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="94"
+      data-width="1920"
+      data-height="1080"
+    >
+      <!-- Scenes: one storyline beat group per file, matched at every seam -->
+      <div data-hf-id="hf-lsf8" id="bill" data-composition-id="bill" data-composition-src="compositions/bill.html"
+        data-start="0" data-duration="21.6" data-track-index="1" data-track-kind="graphics"
+        data-width="1920" data-height="1080"></div>
+      <div data-hf-id="hf-zj9p" id="audit" data-composition-id="audit" data-composition-src="compositions/audit.html"
+        data-start="21.6" data-duration="35.8" data-track-index="1" data-track-kind="graphics"
+        data-width="1920" data-height="1080"></div>
+      <div data-hf-id="hf-6n2z" id="pay" data-composition-id="pay" data-composition-src="compositions/pay.html"
+        data-start="57.4" data-duration="9.75" data-track-index="1" data-track-kind="graphics"
+        data-width="1920" data-height="1080"></div>
+      <div data-hf-id="hf-l5qo" id="invoice" data-composition-id="invoice" data-composition-src="compositions/invoice.html"
+        data-start="67.15" data-duration="13.2" data-track-index="1" data-track-kind="graphics"
+        data-width="1920" data-height="1080"></div>
+      <div data-hf-id="hf-i845" id="close" data-composition-id="close" data-composition-src="compositions/close.html"
+        data-start="80.35" data-duration="13.65" data-track-index="1" data-track-kind="graphics"
+        data-width="1920" data-height="1080"></div>
+
+      <!-- Narration: one continuous ElevenLabs take ("Sarah"), file unchanged; the clock -->
+      <audio id="vo" src="assets/voice/narration_take.mp3" data-start="0.3" data-duration="84.614" data-track-index="2" data-volume="1"></audio>
+
+      <!-- Music: HeyGen catalog track (see CREDITS.md). Section E (track 58.5 s) lands on the PayPal zoom-through (59.8 s),
+           section F (66.6 s) on the capture (67.9 s). Ducked to 0.14 under the voice, up to 0.42 in the two payoff pauses.
+           The tail re-enters the same section 6 bars earlier (bar-aligned) to carry the end card. -->
+      <audio id="music" src="assets/music/bed.wav" data-start="1.3" data-duration="82" data-track-index="3"
+        data-volume="1" data-fade-in="0.4" data-fade-out="1"
+        data-automation='{"version": 1, "lanes": [{"target": "volume", "points": [{"t": 0, "v": 0.14}, {"t": 55.1, "v": 0.14}, {"t": 55.6, "v": 0.42}, {"t": 56.6, "v": 0.42}, {"t": 57.1, "v": 0.14}, {"t": 63.05, "v": 0.14}, {"t": 63.55, "v": 0.42}, {"t": 65.5, "v": 0.42}, {"t": 66.0, "v": 0.14}]}]}'></audio>
+      <audio id="music-tail" src="assets/music/bed.wav" data-start="82.3" data-media-start="69" data-duration="11.7" data-track-index="8"
+        data-volume="1" data-fade-in="1" data-fade-out="1.5"
+        data-automation='{"version": 1, "lanes": [{"target": "volume", "points": [{"t": 0, "v": 0.14}, {"t": 2.65, "v": 0.14}, {"t": 3.3, "v": 0.32}]}]}'></audio>
+
+      <!-- Sound effects: each on a visible cause (see SPEC.md SHOTS, CREDITS.md) -->
+      <audio data-hf-id="hf-it7p" id="sfx-slots" src="assets/sfx/pop.mp3" data-start="5.3" data-track-index="4" data-duration="0.72" data-volume="0.3"></audio>
+      <audio data-hf-id="hf-o4b8" id="sfx-reveal" src="assets/sfx/whoosh.mp3" data-start="8.82" data-track-index="4" data-duration="0.575" data-volume="0.3"></audio>
+      <audio data-hf-id="hf-88pd" id="sfx-lift" src="assets/sfx/whoosh-short.mp3" data-start="11.77" data-track-index="4" data-duration="0.575" data-volume="0.3"></audio>
+      <audio data-hf-id="hf-v296" id="sfx-checks" src="assets/sfx/pop.mp3" data-start="13.61" data-track-index="4" data-duration="0.72" data-volume="0.25"></audio>
+      <audio data-hf-id="hf-q76r" id="sfx-medicare" src="assets/sfx/click-soft.mp3" data-start="20.36" data-track-index="4" data-duration="0.366" data-volume="0.35"></audio>
+      <audio data-hf-id="hf-gu0d" id="sfx-ed-open" src="assets/sfx/whoosh-short.mp3" data-start="22.19" data-track-index="4" data-duration="0.575" data-volume="0.25"></audio>
+      <audio data-hf-id="hf-j2vu" id="sfx-ed-t1" src="assets/sfx/key-press.mp3" data-start="34.56" data-track-index="4" data-duration="0.4" data-volume="0.22"></audio>
+      <audio data-hf-id="hf-u6wt" id="sfx-ed-t2" src="assets/sfx/key-press.mp3" data-start="34.86" data-track-index="5" data-duration="0.4" data-volume="0.22"></audio>
+      <audio data-hf-id="hf-pyys" id="sfx-ed-badge" src="assets/sfx/pop.mp3" data-start="35.56" data-track-index="4" data-duration="0.72" data-volume="0.3"></audio>
+      <audio data-hf-id="hf-wq05" id="sfx-ct-in" src="assets/sfx/whoosh.mp3" data-start="36.02" data-track-index="5" data-duration="0.575" data-volume="0.22"></audio>
+      <audio data-hf-id="hf-dmjr" id="sfx-ct-tick" src="assets/sfx/key-press.mp3" data-start="39.66" data-track-index="4" data-duration="0.4" data-volume="0.22"></audio>
+      <audio data-hf-id="hf-a5xv" id="sfx-ct-badge" src="assets/sfx/pop.mp3" data-start="40.47" data-track-index="4" data-duration="0.72" data-volume="0.3"></audio>
+      <audio data-hf-id="hf-dxzu" id="sfx-labs" src="assets/sfx/pop.mp3" data-start="43.11" data-track-index="4" data-duration="0.72" data-volume="0.28"></audio>
+      <audio data-hf-id="hf-fagx" id="sfx-inj" src="assets/sfx/click-soft.mp3" data-start="46.51" data-track-index="4" data-duration="0.366" data-volume="0.35"></audio>
+      <audio data-hf-id="hf-ae9h" id="sfx-type" src="assets/sfx/typing.mp3" data-start="48.2" data-track-index="4" data-duration="1.5" data-volume="0.22"></audio>
+      <audio data-hf-id="hf-b0ev" id="sfx-sum-t1" src="assets/sfx/key-press.mp3" data-start="52.41" data-track-index="4" data-duration="0.4" data-volume="0.2"></audio>
+      <audio data-hf-id="hf-uqk2" id="sfx-sum-t2" src="assets/sfx/key-press.mp3" data-start="52.76" data-track-index="5" data-duration="0.4" data-volume="0.2"></audio>
+      <audio data-hf-id="hf-864z" id="sfx-sum-t3" src="assets/sfx/key-press.mp3" data-start="53.11" data-track-index="4" data-duration="0.4" data-volume="0.2"></audio>
+      <audio data-hf-id="hf-csjb" id="sfx-fly" src="assets/sfx/whoosh.mp3" data-start="58.64" data-track-index="4" data-duration="0.575" data-volume="0.3"></audio>
+      <audio data-hf-id="hf-r6cz" id="sfx-press" src="assets/sfx/click-soft.mp3" data-start="59.01" data-track-index="5" data-duration="0.366" data-volume="0.4"></audio>
+      <audio data-hf-id="hf-vfyb" id="sfx-through" src="assets/sfx/whoosh-short.mp3" data-start="59.82" data-track-index="4" data-duration="0.575" data-volume="0.3"></audio>
+      <audio data-hf-id="hf-umra" id="sfx-punch" src="assets/sfx/whoosh-short.mp3" data-start="67.02" data-track-index="4" data-duration="0.575" data-volume="0.22"></audio>
+      <audio data-hf-id="hf-kfsz" id="sfx-capture" src="assets/sfx/register.mp3" data-start="67.57" data-track-index="5" data-duration="1.072" data-volume="0.5"></audio>
+      <audio data-hf-id="hf-a3lv" id="sfx-inv-t1" src="assets/sfx/key-press.mp3" data-start="70.26" data-track-index="4" data-duration="0.4" data-volume="0.2"></audio>
+      <audio data-hf-id="hf-5znc" id="sfx-inv-t2" src="assets/sfx/key-press.mp3" data-start="70.86" data-track-index="4" data-duration="0.4" data-volume="0.2"></audio>
+      <audio data-hf-id="hf-fpi6" id="sfx-inv-t3" src="assets/sfx/key-press.mp3" data-start="71.46" data-track-index="4" data-duration="0.4" data-volume="0.2"></audio>
+      <audio data-hf-id="hf-0fs8" id="sfx-stamp" src="assets/sfx/click.mp3" data-start="75.11" data-track-index="4" data-duration="0.366" data-volume="0.4"></audio>
+      <audio data-hf-id="hf-c7pf" id="sfx-mark" src="assets/sfx/impact-bass-1.mp3" data-start="86.16" data-track-index="4" data-duration="2.116" data-volume="0.4"></audio>
+      <audio data-hf-id="hf-0mpt" id="sfx-cta" src="assets/sfx/typing.mp3" data-start="86.85" data-track-index="5" data-duration="1.5" data-volume="0.22"></audio>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

@@ -1,0 +1,330 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #f6f7f5;
+      font-family: Inter, sans-serif;
+      color: #1c2321;
+    }
+    .layer {
+      position: absolute;
+      inset: 0;
+    }
+    .edge {
+      background: #e2e6e3;
+    }
+    .fill {
+      background: #ffffff;
+    }
+    .num {
+      font-variant-numeric: tabular-nums;
+    }
+    #in-big,
+    #in-hero {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 450px;
+      text-align: center;
+      font-size: 168px;
+      font-weight: 900;
+      line-height: 1;
+      color: #0f6e5c;
+      font-variant-numeric: tabular-nums;
+    }
+    /* Receipt: the app's step 3 after payment, rebuilt from receipt.json */
+    #in-rc {
+      position: absolute;
+      left: 160px;
+      top: 200px;
+      width: 1600px;
+      height: 480px;
+    }
+    #in-rc .head {
+      position: absolute;
+      left: 48px;
+      top: 40px;
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      font-size: 48px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    #in-rc .dot {
+      display: inline-grid;
+      place-items: center;
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background: #0f6e5c;
+      color: #ffffff;
+      font-size: 30px;
+    }
+    #in-ok {
+      position: absolute;
+      left: 48px;
+      top: 130px;
+      font-size: 40px;
+      font-weight: 700;
+      color: #0f6e5c;
+      white-space: nowrap;
+    }
+    .dt,
+    .dd {
+      position: absolute;
+      font-size: 40px;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+    .dt {
+      left: 48px;
+      color: #5d6763;
+    }
+    .dd {
+      right: 48px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+    #in-link {
+      color: #0f6e5c;
+      text-decoration: underline;
+      text-underline-offset: 6px;
+    }
+    /* Invoice: PayPal read-back (paypal_readback.json), in the app's card style */
+    #in-iv {
+      position: absolute;
+      left: 160px;
+      top: 110px;
+      width: 1600px;
+      height: 860px;
+    }
+    .iv-t {
+      position: absolute;
+      left: 48px;
+      white-space: nowrap;
+    }
+    #in-iv-kind {
+      top: 40px;
+      font-size: 30px;
+      color: #5d6763;
+    }
+    #in-iv-id {
+      top: 80px;
+      font-size: 46px;
+      font-weight: 700;
+    }
+    #in-iv-sub {
+      top: 150px;
+      font-size: 34px;
+    }
+    #in-iv-from {
+      top: 198px;
+      font-size: 30px;
+      color: #5d6763;
+    }
+    #in-iv-div,
+    #in-iv-rule {
+      position: absolute;
+      left: 48px;
+      right: 48px;
+      height: 2px;
+      background: #e2e6e3;
+    }
+    #in-iv-div {
+      top: 254px;
+    }
+    #in-iv-rule {
+      top: 642px;
+      background: #1c2321;
+    }
+    .item {
+      position: absolute;
+      left: 48px;
+      right: 48px;
+      height: 52px;
+      font-size: 40px;
+      line-height: 52px;
+    }
+    .item .n {
+      position: absolute;
+      left: 0;
+      white-space: nowrap;
+    }
+    .item .a {
+      position: absolute;
+      right: 0;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+    #in-tot {
+      top: 662px;
+      font-size: 42px;
+      font-weight: 700;
+    }
+    #in-note {
+      top: 740px;
+      font-size: 30px;
+      color: #5d6763;
+    }
+    #in-stamp {
+      position: absolute;
+      right: 48px;
+      top: 34px;
+      padding: 8px 18px;
+      border: 4px solid #0f6e5c;
+      border-radius: 10px;
+      color: #0f6e5c;
+      font-size: 48px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    #in-cap {
+      position: absolute;
+      right: 48px;
+      top: 156px;
+      font-size: 30px;
+      color: #5d6763;
+      white-space: nowrap;
+    }
+    #in-billed {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 352px;
+      text-align: center;
+      font-size: 44px;
+      color: #5d6763;
+    }
+    #in-billed .w {
+      position: relative;
+      display: inline-block;
+      font-variant-numeric: tabular-nums;
+    }
+    #in-billed .strike {
+      position: absolute;
+      left: -6px;
+      right: -6px;
+      top: 52%;
+      height: 4px;
+      background: #5d6763;
+    }
+  </style>
+  <div data-hf-id="hf-7056" id="root" data-composition-id="invoice" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-qd54" id="in-rc">
+      <div data-hf-id="hf-tenf" class="layer edge" id="in-rc-edge"></div>
+      <div data-hf-id="hf-b6df" class="layer fill" id="in-rc-fill"></div>
+      <div data-hf-id="hf-yes0" class="head" id="in-rc-head"><span data-hf-id="hf-v0kn" class="dot">3</span>Pay the suggested amount</div>
+      <div data-hf-id="hf-dpe0" id="in-ok">Payment complete (sandbox)</div>
+      <div data-hf-id="hf-pari" class="dt" id="in-dt1" style="top: 214px">Paid</div>
+      <div data-hf-id="hf-i752" class="dd" id="in-dd1" style="top: 214px">$1,882.38</div>
+      <div data-hf-id="hf-sn09" class="dt" id="in-dt2" style="top: 290px">PayPal capture</div>
+      <div data-hf-id="hf-tkuj" class="dd" id="in-dd2" style="top: 290px">7S418104999615141</div>
+      <div data-hf-id="hf-wdd8" class="dt" id="in-dt3" style="top: 366px">Itemized invoice (suggested amounts)</div>
+      <div data-hf-id="hf-37cb" class="dd" id="in-dd3" style="top: 366px"><span data-hf-id="hf-al8c" id="in-link">INV2-XHCY-DEEH-BAPG-WFBR</span></div>
+    </div>
+
+    <div data-hf-id="hf-lda0" id="in-iv">
+      <div data-hf-id="hf-4qv3" class="layer edge" id="in-iv-edge"></div>
+      <div data-hf-id="hf-86t3" class="layer fill" id="in-iv-fill"></div>
+      <div data-hf-id="hf-g3bl" class="iv-t" id="in-iv-kind">Invoice</div>
+      <div data-hf-id="hf-3k1z" class="iv-t" id="in-iv-id">INV2-XHCY-DEEH-BAPG-WFBR</div>
+      <div data-hf-id="hf-qfbd" class="iv-t" id="in-iv-sub">Itemized invoice (suggested amounts)</div>
+      <div data-hf-id="hf-0zxb" class="iv-t" id="in-iv-from">Issued by: provider · PayPal sandbox merchant account</div>
+      <div data-hf-id="hf-fcse" id="in-stamp">MARKED_AS_PAID</div>
+      <div data-hf-id="hf-g4u4" id="in-cap">Capture 7S418104999615141 · COMPLETED</div>
+      <div data-hf-id="hf-2j9y" id="in-iv-div"></div>
+      <div data-hf-id="hf-8tuk" class="item" id="in-it1" style="top: 280px"><span data-hf-id="hf-dt46" class="n">ED visit level 4 (99284)</span><span data-hf-id="hf-xjwm" class="a">$1,189.38</span></div>
+      <div data-hf-id="hf-jw89" class="item" id="in-it2" style="top: 352px"><span data-hf-id="hf-ew0r" class="n">CT head (70450)</span><span data-hf-id="hf-nj95" class="a">$298.00</span></div>
+      <div data-hf-id="hf-sg7k" class="item" id="in-it3" style="top: 424px"><span data-hf-id="hf-an9o" class="n">Metabolic panel (80053)</span><span data-hf-id="hf-flzt" class="a">$180.00</span></div>
+      <div data-hf-id="hf-aup5" class="item" id="in-it4" style="top: 496px"><span data-hf-id="hf-e3pe" class="n">CBC (85025)</span><span data-hf-id="hf-bw0y" class="a">$95.00</span></div>
+      <div data-hf-id="hf-2vvi" class="item" id="in-it5" style="top: 568px"><span data-hf-id="hf-ym12" class="n">Injection (96372)</span><span data-hf-id="hf-kqkr" class="a">$120.00</span></div>
+      <div data-hf-id="hf-hbjv" id="in-iv-rule"></div>
+      <div data-hf-id="hf-p8nw" class="item" id="in-tot"><span data-hf-id="hf-8o8e" class="n">Total (USD)</span><span data-hf-id="hf-5899" class="a" id="in-tot-a">$1,882.38</span></div>
+      <div data-hf-id="hf-jhx7" class="iv-t" id="in-note">Originally billed: $4,445.00.</div>
+    </div>
+
+    <div data-hf-id="hf-j7gx" id="in-big">$1,882.38</div>
+    <div data-hf-id="hf-m28d" id="in-billed"><span data-hf-id="hf-iwnh" class="w">$4,445.00 billed<span data-hf-id="hf-zytr" class="strike" id="in-strike"></span></span></div>
+    <div data-hf-id="hf-gjh1" id="in-hero">$1,882.38</div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const ins = (t, r, b, l, rad) => `inset(${t}px ${r}px ${b}px ${l}px round ${rad}px)`;
+      const blurIn = (sel, at, d) =>
+        tl.fromTo(sel, { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: d || 0.18, ease: "power4.out" }, at);
+      const out = (sel, at, d) => tl.to(sel, { opacity: 0, filter: "blur(6px)", duration: d || 0.2, ease: "power2.in" }, at);
+
+      gsap.set("#in-rc-edge", { clipPath: ins(200, 760, 200, 760, 14) });
+      gsap.set("#in-rc-fill", { clipPath: ins(202, 762, 202, 762, 12) });
+      gsap.set("#in-rc-edge, #in-rc-fill, #in-rc-head, #in-ok, .dt, .dd", { opacity: 0 });
+      gsap.set("#in-iv", { opacity: 0 });
+      gsap.set("#in-iv-edge", { clipPath: ins(456, 48, 356, 950, 8) });
+      gsap.set("#in-iv-fill", { clipPath: ins(458, 50, 358, 952, 6) });
+      gsap.set("#in-iv-kind, #in-iv-id, #in-iv-sub, #in-iv-from, #in-stamp, #in-cap, #in-iv-div, #in-iv-rule, #in-tot, #in-note", { opacity: 0 });
+      gsap.set(".item", { clipPath: "inset(0% 100% 0% 0%)" });
+      gsap.set("#in-tot", { clipPath: "inset(0% 0% 0% 0%)" });
+      gsap.set("#in-billed, #in-hero", { opacity: 0 });
+      gsap.set("#in-strike", { scaleX: 0, transformOrigin: "0% 50%" });
+
+      // the cut lands on PayPal's number: it arrives slightly large and settles
+      tl.fromTo("#in-big", { scale: 1.15, filter: "blur(10px)" }, { scale: 1, filter: "blur(0px)", duration: 0.3, ease: "expo.out" }, 0);
+
+      // "Payment captured": the receipt builds around the number, which carries into "Paid"
+      tl.set("#in-rc-edge, #in-rc-fill", { opacity: 1 }, 0.45);
+      tl.to("#in-rc-edge", { clipPath: ins(0, 0, 0, 0, 20), duration: 0.55, ease: "power3.inOut" }, 0.45);
+      tl.to("#in-rc-fill", { clipPath: ins(2, 2, 2, 2, 18), duration: 0.55, ease: "power3.inOut" }, 0.45);
+      tl.to("#in-big", { x: 644, y: -96, scale: 0.238, duration: 0.6, ease: "power3.inOut" }, 0.55);
+      tl.to("#in-big", { opacity: 0, duration: 0.06, ease: "none" }, 1.1);
+      tl.set("#in-dd1", { opacity: 1 }, 1.12);
+      blurIn("#in-rc-head", 0.7);
+      blurIn("#in-ok", 0.8);
+      blurIn("#in-dt1", 0.9);
+      blurIn("#in-dt2, #in-dd2", 0.95);
+      blurIn("#in-dt3, #in-dd3", 1.0);
+
+      // "issues an itemized invoice": the invoice link grows into the invoice
+      tl.set("#in-iv", { opacity: 1 }, 2.25);
+      tl.to("#in-iv-edge", { clipPath: ins(0, 0, 0, 0, 20), duration: 0.6, ease: "power3.inOut" }, 2.25);
+      tl.to("#in-iv-fill", { clipPath: ins(2, 2, 2, 2, 18), duration: 0.6, ease: "power3.inOut" }, 2.25);
+      tl.to("#in-rc", { opacity: 0, scale: 0.97, filter: "blur(6px)", duration: 0.3, ease: "power2.in" }, 2.35);
+      blurIn("#in-iv-kind, #in-iv-id", 2.7);
+      blurIn("#in-iv-sub, #in-iv-div", 2.85);
+      // the same five lines print back at the suggested amounts
+      [1, 2, 3, 4, 5].forEach((k, i) =>
+        tl.to("#in-it" + k, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.22, ease: "power2.out" }, 3.15 + i * 0.3),
+      );
+      tl.fromTo("#in-iv-rule", { opacity: 1, scaleX: 0, transformOrigin: "0% 50%" }, { opacity: 1, scaleX: 1, duration: 0.3, ease: "power2.out" }, 4.45);
+      blurIn("#in-tot", 4.6);
+      blurIn("#in-note", 4.9);
+      blurIn("#in-iv-from", 6.1, 0.2);
+
+      // "marks it paid with this same payment"
+      tl.fromTo(
+        "#in-stamp",
+        { opacity: 0, scale: 1.6, rotation: -5, transformOrigin: "50% 50%" },
+        { opacity: 1, scale: 1, rotation: -5, duration: 0.22, ease: "expo.out" },
+        8.0,
+      );
+      blurIn("#in-cap", 10.1, 0.2);
+
+      // claim: the invoice total carries to the centre; the bill's total is struck above it
+      out("#in-iv-edge, #in-iv-fill, #in-iv-kind, #in-iv-id, #in-iv-sub, #in-iv-from, #in-stamp, #in-cap, #in-iv-div, #in-iv-rule, .item, #in-tot .n, #in-note", 12.37, 0.3);
+      tl.set("#in-tot-a", { opacity: 0 }, 12.42);
+      tl.fromTo(
+        "#in-hero",
+        { opacity: 1, x: 637, y: 262, scale: 0.25, color: "#1c2321", transformOrigin: "50% 50%" },
+        { opacity: 1, x: 0, y: 0, scale: 1, color: "#0f6e5c", duration: 0.7, ease: "power3.inOut", immediateRender: false },
+        12.42,
+      );
+      blurIn("#in-billed", 12.7, 0.2);
+      tl.to("#in-strike", { scaleX: 1, duration: 0.3, ease: "power2.out" }, 12.85);
+
+      window.__timelines["invoice"] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,30 @@
+name: ci
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: No personal or secret material (file names only, never the matching text)
+        run: |
+          set +e
+          hits=$(grep -rl -i -E -f .github/secret-patterns.txt --exclude-dir=.git --exclude-dir=__pycache__ --exclude-dir=.venv --exclude=secret-patterns.txt .)
+          rc=$?
+          set -e
+          if [ $rc -eq 0 ]; then echo "secret-like content in:"; echo "$hits"; exit 1; fi
+          if [ $rc -ne 1 ]; then echo "secret scan error (grep exit $rc)"; exit 1; fi
+          echo "no secret-like content"
+      - name: Tests (must exist and pass)
+        run: |
+          pip install -q -e '.[dev]'
+          test -n "$(ls tests/test_*.py 2>/dev/null)" || { echo "no tests found"; exit 1; }
+          python -m pytest -q

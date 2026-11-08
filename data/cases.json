@@ -1,0 +1,125 @@
+{
+  "_about": "Fixed synthetic test set for BillCheck (see data/DATA_CARD.md). Expected results were written by hand from docs/DECISIONS.md v1.3 (incl. R3c) before the auditor was implemented. Flags: ABOVE_REFERENCE, NOT_FLAGGED, PACKAGED, INFO_ONLY, NOT_AVAILABLE.",
+  "cases": [
+    {
+      "id": "C01", "purpose": "R1/R2: professional ED visit far above the reference",
+      "bill": {"bill_id": "C01", "provider_name": "Lakeside Emergency Physicians (Synthetic)", "claim_type": "professional", "date_of_service": "2026-10-15", "total_billed": 850.00,
+        "line_items": [{"line_id": "L1", "description": "ED visit, moderate", "cpt_code": "99284", "billed_amount": 850.00}]},
+      "expected": {"lines": {"L1": {"flag": "ABOVE_REFERENCE", "benchmark": 118.24, "suggested": 217.56}},
+        "totals": {"line_sum": 850.00, "total_suggested": 217.56, "difference": 632.44, "totals_match": true}}
+    },
+    {
+      "id": "C02", "purpose": "R2: professional line below 1.84x is not flagged",
+      "bill": {"bill_id": "C02", "provider_name": "Lakeside Emergency Physicians (Synthetic)", "claim_type": "professional", "date_of_service": "2026-10-20", "total_billed": 120.00,
+        "line_items": [{"line_id": "L1", "description": "ED visit, low", "cpt_code": "99283", "billed_amount": 120.00}]},
+      "expected": {"lines": {"L1": {"flag": "NOT_FLAGGED", "benchmark": 69.47, "suggested": 120.00}},
+        "totals": {"line_sum": 120.00, "total_suggested": 120.00, "difference": 0.00, "totals_match": true}}
+    },
+    {
+      "id": "C03", "purpose": "R2 edge: billed exactly at the rounded 1.84x amount is not flagged",
+      "bill": {"bill_id": "C03", "provider_name": "Lakeside Emergency Physicians (Synthetic)", "claim_type": "professional", "date_of_service": "2026-11-02", "total_billed": 127.82,
+        "line_items": [{"line_id": "L1", "description": "ED visit, low", "cpt_code": "99283", "billed_amount": 127.82}]},
+      "expected": {"lines": {"L1": {"flag": "NOT_FLAGGED", "benchmark": 69.47, "suggested": 127.82}},
+        "totals": {"line_sum": 127.82, "total_suggested": 127.82, "difference": 0.00, "totals_match": true}}
+    },
+    {
+      "id": "C04", "purpose": "R1: imaging matched by the -26 professional component",
+      "bill": {"bill_id": "C04", "provider_name": "Harbor Radiology Group (Synthetic)", "claim_type": "professional", "date_of_service": "2026-10-15", "total_billed": 460.00,
+        "line_items": [{"line_id": "L1", "description": "CT head read", "cpt_code": "70450", "modifier": "26", "billed_amount": 400.00},
+                       {"line_id": "L2", "description": "Chest X-ray read", "cpt_code": "71045", "modifier": "26", "billed_amount": 60.00}]},
+      "expected": {"lines": {"L1": {"flag": "ABOVE_REFERENCE", "benchmark": 39.41, "suggested": 72.51},
+                             "L2": {"flag": "ABOVE_REFERENCE", "benchmark": 8.35, "suggested": 15.36}},
+        "totals": {"line_sum": 460.00, "total_suggested": 87.87, "difference": 372.13, "totals_match": true}}
+    },
+    {
+      "id": "C05", "purpose": "R1: office CT billed globally, under the reference",
+      "bill": {"bill_id": "C05", "provider_name": "Harbor Imaging Center (Synthetic)", "claim_type": "professional", "date_of_service": "2026-11-05", "total_billed": 180.00,
+        "line_items": [{"line_id": "L1", "description": "CT head, global", "cpt_code": "70450", "billed_amount": 180.00}]},
+      "expected": {"lines": {"L1": {"flag": "NOT_FLAGGED", "benchmark": 106.55, "suggested": 180.00}},
+        "totals": {"line_sum": 180.00, "total_suggested": 180.00, "difference": 0.00, "totals_match": true}}
+    },
+    {
+      "id": "C06", "purpose": "Units multiply the reference; a lab on a professional claim has no PFS price",
+      "bill": {"bill_id": "C06", "provider_name": "Lakeside Emergency Physicians (Synthetic)", "claim_type": "professional", "date_of_service": "2026-10-28", "total_billed": 145.00,
+        "line_items": [{"line_id": "L1", "description": "Injection x2", "cpt_code": "96372", "units": 2, "billed_amount": 100.00},
+                       {"line_id": "L2", "description": "CBC", "cpt_code": "85025", "billed_amount": 45.00}]},
+      "expected": {"lines": {"L1": {"flag": "ABOVE_REFERENCE", "benchmark": 30.72, "suggested": 56.52},
+                             "L2": {"flag": "NOT_AVAILABLE", "benchmark": null, "suggested": 45.00}},
+        "totals": {"line_sum": 145.00, "total_suggested": 101.52, "difference": 43.48, "totals_match": true}}
+    },
+    {
+      "id": "C07", "purpose": "Wording rule: line sum differs from the stated total; a line without a code",
+      "bill": {"bill_id": "C07", "provider_name": "Lakeside Emergency Physicians (Synthetic)", "claim_type": "professional", "date_of_service": "2026-11-01", "total_billed": 1000.00,
+        "line_items": [{"line_id": "L1", "description": "ED visit, high", "cpt_code": "99285", "billed_amount": 900.00},
+                       {"line_id": "L2", "description": "Supplies", "billed_amount": 75.00}]},
+      "expected": {"lines": {"L1": {"flag": "ABOVE_REFERENCE", "benchmark": 171.35, "suggested": 315.28},
+                             "L2": {"flag": "NOT_AVAILABLE", "benchmark": null, "suggested": 75.00}},
+        "totals": {"line_sum": 975.00, "total_suggested": 390.28, "difference": 584.72, "totals_match": false}}
+    },
+    {
+      "id": "C08", "purpose": "R3/R3b/R4a: hospital ED bill, all codes known; labs packaged; injection not available",
+      "bill": {"bill_id": "C08", "provider_name": "Riverside Community Hospital (Synthetic)", "claim_type": "facility", "date_of_service": "2026-10-15", "total_billed": 4445.00,
+        "line_items": [{"line_id": "L1", "description": "ED visit level 4", "cpt_code": "99284", "billed_amount": 2400.00},
+                       {"line_id": "L2", "description": "CT head", "cpt_code": "70450", "billed_amount": 1650.00},
+                       {"line_id": "L3", "description": "Metabolic panel", "cpt_code": "80053", "billed_amount": 180.00},
+                       {"line_id": "L4", "description": "CBC", "cpt_code": "85025", "billed_amount": 95.00},
+                       {"line_id": "L5", "description": "Injection", "cpt_code": "96372", "billed_amount": 120.00}]},
+      "expected": {"lines": {"L1": {"flag": "ABOVE_REFERENCE", "benchmark": 426.30, "suggested": 1189.38},
+                             "L2": {"flag": "ABOVE_REFERENCE", "benchmark": 106.81, "suggested": 298.00},
+                             "L3": {"flag": "PACKAGED", "benchmark": null, "suggested": 180.00},
+                             "L4": {"flag": "PACKAGED", "benchmark": null, "suggested": 95.00},
+                             "L5": {"flag": "NOT_AVAILABLE", "benchmark": null, "suggested": 120.00}},
+        "totals": {"line_sum": 4445.00, "total_suggested": 1882.38, "difference": 2562.62, "totals_match": true}}
+    },
+    {
+      "id": "C09", "purpose": "R3b: observation hours (unknown code G0378) make the ED visit not comparable",
+      "bill": {"bill_id": "C09", "provider_name": "Riverside Community Hospital (Synthetic)", "claim_type": "facility", "date_of_service": "2026-11-03", "total_billed": 4600.00,
+        "line_items": [{"line_id": "L1", "description": "ED visit level 5", "cpt_code": "99285", "billed_amount": 3100.00},
+                       {"line_id": "L2", "description": "Observation, per hour", "cpt_code": "G0378", "units": 10, "billed_amount": 1500.00}]},
+      "expected": {"lines": {"L1": {"flag": "NOT_AVAILABLE", "benchmark": null, "suggested": 3100.00},
+                             "L2": {"flag": "NOT_AVAILABLE", "benchmark": null, "suggested": 1500.00}},
+        "totals": {"line_sum": 4600.00, "total_suggested": 4600.00, "difference": 0.00, "totals_match": true}}
+    },
+    {
+      "id": "C10", "purpose": "R3a: two CT units and a facility X-ray are not comparable; the ED visit still is",
+      "bill": {"bill_id": "C10", "provider_name": "Riverside Community Hospital (Synthetic)", "claim_type": "facility", "date_of_service": "2026-11-06", "total_billed": 4200.00,
+        "line_items": [{"line_id": "L1", "description": "ED visit level 3", "cpt_code": "99283", "billed_amount": 900.00},
+                       {"line_id": "L2", "description": "CT head x2", "cpt_code": "70450", "units": 2, "billed_amount": 3000.00},
+                       {"line_id": "L3", "description": "Chest X-ray", "cpt_code": "71045", "billed_amount": 300.00}]},
+      "expected": {"lines": {"L1": {"flag": "ABOVE_REFERENCE", "benchmark": 278.89, "suggested": 778.10},
+                             "L2": {"flag": "NOT_AVAILABLE", "benchmark": null, "suggested": 3000.00},
+                             "L3": {"flag": "NOT_AVAILABLE", "benchmark": null, "suggested": 300.00}},
+        "totals": {"line_sum": 4200.00, "total_suggested": 4078.10, "difference": 121.90, "totals_match": true}}
+    },
+    {
+      "id": "C11", "purpose": "R5: independent lab bill, information only",
+      "bill": {"bill_id": "C11", "provider_name": "Valley Reference Lab (Synthetic)", "claim_type": "lab", "date_of_service": "2026-10-22", "total_billed": 240.00,
+        "line_items": [{"line_id": "L1", "description": "Metabolic panel", "cpt_code": "80053", "billed_amount": 150.00},
+                       {"line_id": "L2", "description": "CBC", "cpt_code": "85025", "billed_amount": 90.00}]},
+      "expected": {"lines": {"L1": {"flag": "INFO_ONLY", "benchmark": 10.56, "suggested": 150.00},
+                             "L2": {"flag": "INFO_ONLY", "benchmark": 7.77, "suggested": 90.00}},
+        "totals": {"line_sum": 240.00, "total_suggested": 240.00, "difference": 0.00, "totals_match": true}}
+    },
+    {
+      "id": "C12", "purpose": "R6: September date is before the October OPPS release",
+      "bill": {"bill_id": "C12", "provider_name": "Riverside Community Hospital (Synthetic)", "claim_type": "facility", "date_of_service": "2026-09-15", "total_billed": 2000.00,
+        "line_items": [{"line_id": "L1", "description": "ED visit level 4", "cpt_code": "99284", "billed_amount": 2000.00}]},
+      "expected": {"lines": {"L1": {"flag": "NOT_AVAILABLE", "benchmark": null, "suggested": 2000.00}},
+        "totals": {"line_sum": 2000.00, "total_suggested": 2000.00, "difference": 0.00, "totals_match": true}}
+    },
+    {
+      "id": "C13", "purpose": "R6: a 2025 date is outside the 2026 fee schedule",
+      "bill": {"bill_id": "C13", "provider_name": "Lakeside Emergency Physicians (Synthetic)", "claim_type": "professional", "date_of_service": "2025-12-20", "total_billed": 850.00,
+        "line_items": [{"line_id": "L1", "description": "ED visit, moderate", "cpt_code": "99284", "billed_amount": 850.00}]},
+      "expected": {"lines": {"L1": {"flag": "NOT_AVAILABLE", "benchmark": null, "suggested": 850.00}},
+        "totals": {"line_sum": 850.00, "total_suggested": 850.00, "difference": 0.00, "totals_match": true}}
+    },
+    {
+      "id": "C14", "purpose": "R5 covers independent-lab bills only: a hospital bill with only a lab test has no signed rule, so not available",
+      "bill": {"bill_id": "C14", "provider_name": "Riverside Community Hospital (Synthetic)", "claim_type": "facility", "date_of_service": "2026-11-02", "total_billed": 60.00,
+        "line_items": [{"line_id": "L1", "description": "CBC", "cpt_code": "85025", "billed_amount": 60.00}]},
+      "expected": {"lines": {"L1": {"flag": "NOT_AVAILABLE", "benchmark": null, "suggested": 60.00}},
+        "totals": {"line_sum": 60.00, "total_suggested": 60.00, "difference": 0.00, "totals_match": true}}
+    }
+  ]
+}

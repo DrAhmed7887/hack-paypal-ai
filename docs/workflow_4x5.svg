@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350" width="1080" height="1350" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+<title>BillCheck workflow</title>
+<rect width="1080" height="1350" fill="#f6f7f5"/>
+<text x="60" y="96" font-size="54" font-weight="700" fill="#1c2321">BillCheck</text>
+<text x="60" y="146" font-size="30" fill="#1c2321">From a medical bill to a suggested amount, paid with PayPal</text>
+<text x="60" y="188" font-size="24" fill="#5d6763">Traced with synthetic hospital bill C08 ($4,445.00 billed)</text>
+<rect x="60" y="225" width="960" height="170" rx="20" fill="#ffffff" stroke="#e2e6e3" stroke-width="2"/>
+<circle cx="112" cy="277" r="28" fill="#0f6e5c"/><text x="112" y="287" font-size="30" font-weight="700" fill="#fff" text-anchor="middle">1</text>
+<text x="160" y="287" font-size="34" font-weight="700" fill="#1c2321">Bill</text>
+<text x="1000" y="287" font-size="22" fill="#5d6763" text-anchor="end">web/app.py</text>
+<text x="160" y="333" font-size="28" fill="#1c2321">Pasted text, a text-based PDF, or a sample bill</text>
+<text x="160" y="373" font-size="28" font-weight="700" fill="#0f6e5c">5 lines · $4,445.00 billed</text>
+<rect x="60" y="419" width="960" height="170" rx="20" fill="#ffffff" stroke="#e2e6e3" stroke-width="2"/>
+<circle cx="112" cy="471" r="28" fill="#0f6e5c"/><text x="112" y="481" font-size="30" font-weight="700" fill="#fff" text-anchor="middle">2</text>
+<text x="160" y="481" font-size="34" font-weight="700" fill="#1c2321">AI reader</text>
+<text x="1000" y="481" font-size="22" fill="#5d6763" text-anchor="end">extractor.py</text>
+<text x="160" y="527" font-size="28" fill="#1c2321">GPT-OSS 120B on Fireworks reads codes and amounts</text>
+<text x="160" y="567" font-size="28" font-weight="700" fill="#0f6e5c">Refuses any code or $ not on the bill</text>
+<rect x="60" y="613" width="960" height="170" rx="20" fill="#ffffff" stroke="#0f6e5c" stroke-width="3"/>
+<circle cx="112" cy="665" r="28" fill="#0f6e5c"/><text x="112" y="675" font-size="30" font-weight="700" fill="#fff" text-anchor="middle">3</text>
+<text x="160" y="675" font-size="34" font-weight="700" fill="#1c2321">Audit</text>
+<text x="1000" y="675" font-size="22" fill="#5d6763" text-anchor="end">auditor.py · benchmarks.json</text>
+<text x="160" y="717" font-size="26" fill="#1c2321">Eligible lines vs 2026 Medicare × RAND aggregate category ratios</text>
+<text x="160" y="761" font-size="28" font-weight="700" fill="#a3361f">ED visit $2,400.00 → $1,189.38</text>
+<rect x="60" y="807" width="960" height="170" rx="20" fill="#ffffff" stroke="#e2e6e3" stroke-width="2"/>
+<circle cx="112" cy="859" r="28" fill="#0f6e5c"/><text x="112" y="869" font-size="30" font-weight="700" fill="#fff" text-anchor="middle">4</text>
+<text x="160" y="869" font-size="34" font-weight="700" fill="#1c2321">Explain</text>
+<text x="1000" y="869" font-size="22" fill="#5d6763" text-anchor="end">explainer.py</text>
+<text x="160" y="911" font-size="26" fill="#1c2321">AI summary shown only if every $ figure is in the audit</text>
+<text x="160" y="955" font-size="28" font-weight="700" fill="#0f6e5c">Suggested total $1,882.38</text>
+<rect x="60" y="1001" width="960" height="170" rx="20" fill="#ffffff" stroke="#e2e6e3" stroke-width="2"/>
+<circle cx="112" cy="1053" r="28" fill="#0f6e5c"/><text x="112" y="1063" font-size="30" font-weight="700" fill="#fff" text-anchor="middle">5</text>
+<text x="160" y="1063" font-size="34" font-weight="700" fill="#1c2321">PayPal</text>
+<text x="1000" y="1063" font-size="22" fill="#5d6763" text-anchor="end">paypal_client.py</text>
+<text x="160" y="1105" font-size="26" fill="#1c2321">Orders v2 takes payment; Invoicing v2 issues the invoice</text>
+<text x="160" y="1149" font-size="28" font-weight="700" fill="#0f6e5c">Payment COMPLETED · invoice marked paid</text>
+<rect x="60" y="1195" width="960" height="124" rx="18" fill="#e3f1ed"/>
+<text x="90" y="1237" font-size="26" font-weight="700" fill="#0f6e5c">Physician-signed rules</text>
+<text x="90" y="1270" font-size="22" fill="#1c2321">Flag above 1.84× (doctor) / 2.79× (hospital) Medicare.</text>
+<text x="90" y="1300" font-size="22" fill="#1c2321">Not flagged: bundled lines, and lines without a confirmed Medicare benchmark.</text>
+<text x="60" y="1342" font-size="20" fill="#5d6763">Sources: CMS 2026 fee schedules; RAND private-plan prices (2022). A negotiation reference.</text>
+</svg>
