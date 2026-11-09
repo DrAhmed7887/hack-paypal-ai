@@ -39,9 +39,9 @@
     return span;
   }
 
-  const money = { type: "rightAligned", filter: "agNumberColumnFilter", valueFormatter: (p) => usd(p.value), width: 128 };
+  const money = { type: "rightAligned", filter: "agNumberColumnFilter", valueFormatter: (p) => usd(p.value), width: 124 };
   const columnDefs = [
-    { headerName: "Time", field: "time", width: 104, sort: "desc", filter: false,
+    { headerName: "Time", field: "time", width: 96, sort: "desc", filter: false,
       comparator: (a, b, nodeA, nodeB) => (nodeA.data ? nodeA.data.created : 0) - (nodeB.data ? nodeB.data.created : 0) },
     { headerName: "Bill", field: "bill", minWidth: 130, flex: 1, filter: "agTextColumnFilter", tooltipField: "bill" },
     { headerName: "Line", field: "description", minWidth: 130, flex: 1, filter: "agTextColumnFilter",
@@ -52,9 +52,9 @@
     { headerName: "Suggested", field: "suggested", ...money },
     { headerName: "Difference", field: "difference", ...money,
       cellClassRules: { "cell-flag": (p) => p.value > 0 } },
-    { headerName: "Status", field: "status", width: 158, filter: "agTextColumnFilter", cellRenderer: badge,
+    { headerName: "Status", field: "status", width: 150, filter: "agTextColumnFilter", cellRenderer: badge,
       tooltipValueGetter: (p) => p.data && p.data.explanation },
-    { headerName: "Payment", field: "payment", width: 124, filter: "agTextColumnFilter" },
+    { headerName: "Payment", field: "payment", width: 104, filter: false },
   ];
 
   function toRows(audits) {
@@ -83,7 +83,7 @@
     });
     const r2 = (x) => Math.round(x * 100) / 100;
     api.setGridOption("pinnedBottomRowData", [{
-      bill: `Total · ${n} line${n === 1 ? "" : "s"}`, billed: r2(billed), suggested: r2(suggested), difference: r2(billed - suggested),
+      bill: "Total", description: `${n} line${n === 1 ? "" : "s"}`, billed: r2(billed), suggested: r2(suggested), difference: r2(billed - suggested),
     }]);
     document.getElementById("hist-stats").textContent =
       `${bills.size} bill${bills.size === 1 ? "" : "s"} shown · billed ${usd(billed)} · suggested ${usd(suggested)} · potential negotiation difference ${usd(billed - suggested)}`;
