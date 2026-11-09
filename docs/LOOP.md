@@ -19,8 +19,8 @@ Deadline: Thu 12 Nov 2026, 12:00 PT. One item per loop iteration: the first unch
 - [x] 9. 🔒 G2: Ahmed approved the screens (seen live in Chrome, 8 Nov).
 - [x] 10. (docs/STRESS.md: 22/22 after fixing forged X-Forwarded-For; live capture blocked by the EG sandbox merchant) Stress round (hackathon stress checklist) + independent review (code-reviewer, python-reviewer, Copilot Lite, Gemini via `agy` once).
 - [x] 11. (claims audit QA PASS in round 5) Workflow diagram `docs/workflow.svg` / `.png` / `_4x5.png` from the code; README claims audit against EVIDENCE + G1 numbers.
-- [ ] 12. Judges can test until 15 Dec: hosting (Render free tier, credits checked first) or run-locally instructions; model daily cap on.
+- [x] 12. Judges can test until 15 Dec: run-locally instructions in the README (hosted Space built, not deployed); model daily cap on ($2/day).
 - [x] 13. (HyperFrames film "One bill, one number", 94 s, ElevenLabs voice, catalog music; video/film) Video: video-director plan → Playwright capture → render, ~2:00, no trademarks.
 - [x] 14. 🔒 G4: Ahmed watched the preview with sound and asked for the render (9 Nov).
 - [x] 15. Pre-publish scan: secret patterns and private notes, full history of the development repo and the published snapshot: clean (9 Nov).
-- [ ] 16. 🔒 G5: repo public, YouTube upload, Devpost form, submit (Ahmed's clicks).
+- [x] 16. 🔒 G5: repo public, YouTube upload (https://youtu.be/LjjzFM5r5VU), Devpost submitted (https://devpost.com/software/billcheck-7vlo29), 9 Nov.
