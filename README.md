@@ -53,7 +53,7 @@ cd hack-paypal-ai
 python3 -m venv .venv && source .venv/bin/activate
 pip install -e '.[dev]'
 python -m pytest -q
-export PAYPAL_CLIENT_ID=... PAYPAL_CLIENT_SECRET=... FIREWORKS_API_KEY=...
+export PAYPAL_CLIENT_ID=... PAYPAL_CLIENT_SECRET=... FIREWORKS_API_KEY=...   # names and optional settings: .env.example
 uvicorn billcheck.web.app:app --no-proxy-headers
 ```
 
