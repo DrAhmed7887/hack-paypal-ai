@@ -39,7 +39,7 @@ The server keeps one order per audit and checks each step's state, and the captu
 All numbers below come from scripts in this repo; each linked file explains how it was produced and its limits.
 
 - **AI reader** ([`docs/G1.md`](docs/G1.md)): after tuning on the same synthetic test set, the final run matched the scored extraction fields on all 28 bills rendered in our two layouts; this does not estimate accuracy on real bills.
-- **Rules** (`tests/`): 14 signed synthetic bills with expected results (`data/cases.json`) plus edge cases; 147 tests pass, and CI runs them on every pull request.
+- **Rules** (`tests/`): 14 signed synthetic bills with expected results (`data/cases.json`) plus edge cases; 149 tests pass, and CI runs them on every pull request.
 - **Stress** ([`docs/STRESS.md`](docs/STRESS.md)): 22/22 checks, including 6 AI audits at once, 200 requests at 50-way concurrency, a 9-way double click giving one order, 13 invalid-input and route checks answered with the expected 4xx responses, a prompt-injection test that returned the expected $1,882.38 total, and rate limits that a forged `X-Forwarded-For` cannot bypass.
 - **Live sandbox** ([`docs/LIVE_CHECK.md`](docs/LIVE_CHECK.md)): bill C08 paid with PayPal's published sandbox test card; PayPal reports the capture COMPLETED for $1,882.38 and the BillCheck-generated invoice MARKED_AS_PAID for $1,882.38.
 
@@ -62,7 +62,7 @@ Open http://127.0.0.1:8000, pick a sample bill, and pay with a PayPal sandbox bu
 ## AI tools used
 
 - **In the product:** GPT-OSS 120B on Fireworks AI reads bills into line items and writes the plain-language summary. Both outputs are checked by code before use.
-- **To build it:** Claude Code (Anthropic) wrote and tested the code under the physician's direction. GitHub Copilot reviewed the pull requests (its reviews are on each PR); separate AI reviewer agents also checked code and security changes, and the fixes they led to are named in the commit messages. GPT-6 Sol (RWTH university AI service) acted as an independent quality checker for the rules, test expectations and measured results ([`docs/QA.md`](docs/QA.md)).
+- **To build it:** Claude Code (Anthropic) wrote and tested the code under the physician's direction. GitHub Copilot reviewed the pull requests, and separate AI reviewer agents also checked code and security changes (the pull requests and full commit history are in the private development repository; this public repository starts from one clean commit). GPT-6 Sol (RWTH university AI service) acted as an independent quality checker for the rules, test expectations and measured results ([`docs/QA.md`](docs/QA.md)).
 
 ## Data and sources
 
