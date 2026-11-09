@@ -17,7 +17,7 @@ jobs:
       - name: No personal or secret material (file names only, never the matching text)
         run: |
           set +e
-          hits=$(grep -rl -i -E -f .github/secret-patterns.txt --exclude-dir=.git --exclude-dir=__pycache__ --exclude-dir=.venv --exclude=secret-patterns.txt .)
+          hits=$(grep -rl -i -E -f .github/secret-patterns.txt --exclude-dir=.git --exclude-dir=__pycache__ --exclude-dir=.venv --exclude=ag-grid-community.min.js --exclude=secret-patterns.txt .)
           rc=$?
           set -e
           if [ $rc -eq 0 ]; then echo "secret-like content in:"; echo "$hits"; exit 1; fi

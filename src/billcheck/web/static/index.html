@@ -62,11 +62,29 @@
         <p id="r-note" class="muted"></p>
       </div>
     </section>
+
   </main>
+
+  <div class="wrap wide">
+    <section id="step-history" class="card" aria-labelledby="h-history">
+      <h2 id="h-history"><span class="num">4</span> Your audit history</h2>
+      <p class="hint">Every bill checked in this browser, line by line. Sort or filter any column, search everything at once, and export to CSV for a billing office or patient advocate. Hover a line for the reason behind its status.</p>
+      <div class="row hist-tools">
+        <input id="hist-filter" type="search" placeholder="Search all lines (e.g. CT, above, 99284)" aria-label="Search all lines">
+        <button id="hist-samples" type="button" class="chip">Check all 5 sample bills</button>
+        <button id="hist-csv" type="button" class="chip">Export CSV</button>
+      </div>
+      <p id="hist-stats" class="muted" aria-live="polite"></p>
+      <p id="hist-empty" class="muted">No bills checked in this browser yet. Check a bill above, or check all five samples at once.</p>
+      <div id="history-grid" class="grid"></div>
+    </section>
+  </div>
 
   <footer class="wrap foot">
     <p>Prices: CMS 2026 Physician Fee Schedule, Clinical Laboratory Fee Schedule and hospital outpatient (OPPS) rates. Reference multipliers: RAND, prices paid by private health plans (2022). Rules signed by a physician; see the project's docs. Not medical, legal or financial advice.</p>
   </footer>
+  <script src="/static/vendor/ag-grid-community.min.js"></script>
+  <script src="/static/history.js"></script>
   <script src="/static/app.js"></script>
 </body>
 </html>

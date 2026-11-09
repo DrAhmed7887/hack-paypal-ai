@@ -15,12 +15,14 @@ import uuid
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from importlib import resources
-from typing import Any, Callable, Deque, Dict, Optional
+from datetime import datetime, timezone
+from typing import Annotated, Any, Callable, Deque, Dict, List, Optional
 
 from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
 from fastapi.responses import HTMLResponse, JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
 from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel, Field, StringConstraints
 
 from ..auditor import BillAuditor
 from ..explainer import explain
@@ -38,6 +40,7 @@ AUDITS_PER_IP_PER_HOUR = int(os.environ.get("BILLCHECK_AUDITS_PER_HOUR", "20"))
 STORE_TTL_S = 2 * 3600
 STORE_MAX = 500
 PAYMENT_CALLS_PER_AUDIT = 10
+HISTORY_MAX_IDS = 50
 # Behind a tunnel or proxy, set BILLCHECK_CLIENT_IP_HEADER to the header IT sets (e.g. CF-Connecting-IP).
 # For X-Forwarded-For the rightmost entry is used: it is the one the nearest proxy appended (leftmost is client-made).
 CLIENT_IP_HEADER = os.environ.get("BILLCHECK_CLIENT_IP_HEADER", "")
@@ -46,7 +49,7 @@ FRAME_ANCESTORS = os.environ.get("BILLCHECK_FRAME_ANCESTORS", "")
 CSP = ("default-src 'self'; script-src 'self' https://www.sandbox.paypal.com https://www.paypalobjects.com; "
        "connect-src 'self' https://www.sandbox.paypal.com https://*.paypal.com; "
        "frame-src https://www.sandbox.paypal.com https://*.paypal.com; img-src 'self' data: https://*.paypalobjects.com "
-       "https://*.paypal.com; style-src 'self' 'unsafe-inline'; base-uri 'none'; form-action 'self'; frame-ancestors ")
+       "https://*.paypal.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; base-uri 'none'; form-action 'self'; frame-ancestors ")
 DEMO_CASES = ("C08", "C01", "C04", "C10", "C11")  # sample bills a judge can try without uploading
 
 
@@ -80,6 +83,12 @@ class Store:
             audit_id = uuid.uuid4().hex
             self._items[audit_id] = AuditRecord(report)
             return audit_id
+
+    def find(self, audit_ids: List[str]) -> List[tuple]:
+        """The (id, record) pairs for the ids given that still exist, oldest first. Never lists other audits."""
+        with self._lock:
+            found = [(a, self._items[a]) for a in dict.fromkeys(audit_ids) if a in self._items]
+        return sorted(found, key=lambda pair: pair[1].created)
 
     def get(self, audit_id: str) -> AuditRecord:
         record = self._items.get(audit_id)
@@ -132,6 +141,31 @@ def _bill_text(text: Optional[str], upload: Optional[UploadFile]) -> str:
     return text or ""
 
 
+AuditId = Annotated[str, StringConstraints(pattern=r"^[0-9a-f]{32}$")]
+
+
+class HistoryRequest(BaseModel):
+    """The browser sends the audit ids it created; ids travel in the body, never in a URL."""
+    audit_ids: List[AuditId] = Field(default_factory=list, max_length=HISTORY_MAX_IDS)
+
+
+def _findings(report: AuditReport) -> List[Dict[str, Any]]:
+    return [f.model_dump(include={"line_id", "description", "cpt_code", "billed_amount", "benchmark_amount",
+                                  "benchmark_source", "markup_ratio", "flag_type", "explanation",
+                                  "suggested_amount", "evidence"}) for f in report.findings]
+
+
+def _history_row(audit_id: str, record: "AuditRecord") -> Dict[str, Any]:
+    r = record.report
+    return {"audit_id": audit_id, "created": datetime.fromtimestamp(record.created, timezone.utc).isoformat(),
+            "provider_name": r.provider_name, "bill_id": r.bill_id, "state": record.state,
+            "total_billed": r.total_billed, "line_sum": r.line_sum, "total_suggested": r.total_suggested,
+            "potential_negotiation_difference": r.potential_negotiation_difference,
+            "paid_amount": record.capture.get("amount") if record.state in ("captured", "invoiced") else None,
+            "invoice_id": record.invoice_id if record.state == "invoiced" else None,
+            "findings": _findings(r)}
+
+
 def _public(report: AuditReport, explanation) -> Dict[str, Any]:
     return {
         "bill_id": report.bill_id, "provider_name": report.provider_name,
@@ -140,9 +174,7 @@ def _public(report: AuditReport, explanation) -> Dict[str, Any]:
         "potential_negotiation_difference": report.potential_negotiation_difference,
         "caveat": report.caveat,
         "summary": {"text": explanation.text, "source": explanation.source},
-        "findings": [f.model_dump(include={"line_id", "description", "cpt_code", "billed_amount", "benchmark_amount",
-                                           "benchmark_source", "markup_ratio", "flag_type", "explanation",
-                                           "suggested_amount", "evidence"}) for f in report.findings],
+        "findings": _findings(report),
     }
 
 
@@ -210,6 +242,10 @@ def create_app(llm_factory: Callable[[], Any] = FireworksLLM,
         report = auditor.audit(bill)
         audit_id = store.add(report)
         return {"audit_id": audit_id, **_public(report, explain(report, llm))}
+
+    @app.post("/api/history")
+    def history(body: HistoryRequest) -> Dict[str, Any]:
+        return {"audits": [_history_row(a, rec) for a, rec in store.find(body.audit_ids)]}
 
     @app.post("/api/audits/{audit_id}/order")
     def create_order(audit_id: str) -> Dict[str, str]:

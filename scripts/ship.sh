@@ -15,9 +15,9 @@ branch=$(git rev-parse --abbrev-ref HEAD)
 print "== local checks"
 PY=python3; [[ -x .venv/bin/python ]] && PY=.venv/bin/python
 $PY -m pytest -q >/dev/null || { print -u2 "ship: tests failed"; exit 1; }
-# Same patterns as CI, over the files git tracks (what CI checks out). git grep: 0 = match, 1 = none, else error.
+# Same patterns as CI, over the files git tracks (what CI checks out). The vendored AG Grid bundle is pinned by hash in tests instead. git grep: 0 = match, 1 = none, else error.
 set +e
-hits=$(git grep -l -i -E -f .github/secret-patterns.txt -- . ':(exclude).github/secret-patterns.txt')
+hits=$(git grep -l -i -E -f .github/secret-patterns.txt -- . ':(exclude).github/secret-patterns.txt' ':(exclude)src/billcheck/web/static/vendor/ag-grid-community.min.js')
 rc=$?
 set -e
 if (( rc == 0 )); then print -u2 "ship: secret-like content (same scan as CI):"; print -u2 "$hits"; exit 1; fi

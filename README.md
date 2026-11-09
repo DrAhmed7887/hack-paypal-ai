@@ -20,6 +20,8 @@ Hospital list prices ("chargemaster" charges) can sit far above what hospitals a
    - **Orders v2:** the patient pays the suggested total. The amount is held on the server; the browser never sends it.
    - **Invoicing v2:** after the capture, BillCheck generates an itemized invoice at the suggested amounts from the provider's PayPal sandbox merchant account, sends it to the payer's email and records the captured payment on it, so it shows as paid.
 
+6. **Audit history in AG Grid** (`src/billcheck/web/static/history.js`). Every bill checked in the browser, one row per line, in [AG Grid Community](https://www.ag-grid.com/) (MIT, version 36.2.0, served from this app and pinned by hash in the tests): billed amount, 2026 Medicare price, suggested amount and difference per line, the status badge with the line's explanation on hover, and each bill's PayPal payment state. Sort or filter any column, search all lines at once, and export to CSV for a billing office or patient advocate; the totals row follows the filter (for example, all lines above the reference across several bills). "Check all 5 sample bills" fills it in one click. The server returns only the audits whose ids the browser sends, in the request body; there is no endpoint that lists all audits.
+
 Example, synthetic hospital bill C08: $4,445.00 billed. The ED visit ($2,400.00) is compared with the 2026 OPPS rate of $426.30 and suggested at $1,189.38; the CT head ($1,650.00) at $298.00. The routine labs would usually be included in other payments on this bill, and the injection has no confirmed separate benchmark, so neither is flagged. Suggested total: **$1,882.38**.
 
 > A flag is a negotiation reference based on public prices, not proof that a charge is incorrect.
@@ -39,7 +41,7 @@ The server keeps one order per audit and checks each step's state, and the captu
 All numbers below come from scripts in this repo; each linked file explains how it was produced and its limits.
 
 - **AI reader** ([`docs/G1.md`](docs/G1.md)): after tuning on the same synthetic test set, the final run matched the scored extraction fields on all 28 bills rendered in our two layouts; this does not estimate accuracy on real bills.
-- **Rules** (`tests/`): 14 signed synthetic bills with expected results (`data/cases.json`) plus edge cases; 149 tests pass, and CI runs them on every pull request.
+- **Rules** (`tests/`): 14 signed synthetic bills with expected results (`data/cases.json`) plus edge cases; 155 tests pass, and CI runs them on every pull request.
 - **Stress** ([`docs/STRESS.md`](docs/STRESS.md)): 22/22 checks, including 6 AI audits at once, 200 requests at 50-way concurrency, a 9-way double click giving one order, 13 invalid-input and route checks answered with the expected 4xx responses, a prompt-injection test that returned the expected $1,882.38 total, and rate limits that a forged `X-Forwarded-For` cannot bypass.
 - **Live sandbox** ([`docs/LIVE_CHECK.md`](docs/LIVE_CHECK.md)): bill C08 paid with PayPal's published sandbox test card; PayPal reports the capture COMPLETED for $1,882.38 and the BillCheck-generated invoice MARKED_AS_PAID for $1,882.38.
 

@@ -136,11 +136,33 @@ function showReceipt(rec) {
           : "Your payment is complete. The itemized invoice has not been issued yet; use the button above to try again.";
         $("paypal-buttons").replaceChildren();
         $("receipt").hidden = false;
+        window.BillCheckHistory?.refresh();
+}
+
+async function checkAllSamples(cfg) {
+  const btn = $("hist-samples");
+  btn.disabled = true;
+  try {
+    for (let i = 0; i < cfg.samples.length; i += 1) {
+      btn.textContent = `Checking ${i + 1} of ${cfg.samples.length}…`;
+      const text = (await api(`/api/samples/${encodeURIComponent(cfg.samples[i].id)}`)).text;
+      const form = new FormData();
+      form.append("text", text);
+      window.BillCheckHistory?.add((await api("/api/audit", { method: "POST", body: form })).audit_id);
+      await window.BillCheckHistory?.refresh();
+    }
+  } catch (err) {
+    $("hist-stats").textContent = err.message;
+  } finally {
+    btn.disabled = false; btn.textContent = "Check all 5 sample bills";
+  }
 }
 
 async function main() {
   let cfg = { samples: [], paypal_client_id: "" };
   try { cfg = await loadConfig(); } catch (err) { showError("bill-error", err.message); }
+  try { window.BillCheckHistory?.init(); } catch (err) { $("hist-stats").textContent = "Audit history is unavailable."; }
+  $("hist-samples").addEventListener("click", () => checkAllSamples(cfg));
   $("bill-file").addEventListener("change", (e) => {
     $("file-name").textContent = e.target.files[0] ? e.target.files[0].name : "";
   });
@@ -155,8 +177,10 @@ async function main() {
     try {
       const r = await api("/api/audit", { method: "POST", body: form });
       auditId = r.audit_id;
+      window.BillCheckHistory?.add(auditId);
       renderResults(r);
       await setupPayment(cfg, r);
+      window.BillCheckHistory?.refresh();
       $("step-results").scrollIntoView({ behavior: "smooth", block: "start" });
     } catch (err) {
       showError("bill-error", err.message);
