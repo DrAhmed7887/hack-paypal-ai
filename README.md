@@ -6,6 +6,8 @@ PayPal AI Hackathon 2026 entry. Synthetic bills and PayPal sandbox money only.
 
 ![BillCheck workflow](docs/workflow.png)
 
+**For judges:** each Devpost criterion and where its evidence is: [`JUDGES.md`](JUDGES.md).
+
 ## Why
 
 Hospital list prices ("chargemaster" charges) can sit far above what hospitals are actually paid: a national study found an average charge-to-cost ratio of 3.4 in 2012 (Bai & Anderson, *Health Affairs* 2015, PMID 26056196), and the same study notes that uninsured patients are commonly asked to pay full charges, while out-of-network patients are often expected to pay a large portion of them. A patient holding a bill has no easy way to see which lines sit far above a public reference, or to pay a suggested amount with a paper trail.
