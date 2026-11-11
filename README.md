@@ -43,11 +43,21 @@ The server keeps one order per audit and checks each step's state, and the captu
 All numbers below come from scripts in this repo; each linked file explains how it was produced and its limits.
 
 - **AI reader** ([`docs/G1.md`](docs/G1.md)): after tuning on the same synthetic test set, the final run matched the scored extraction fields on all 28 bills rendered in our two layouts; this does not estimate accuracy on real bills.
-- **Rules** (`tests/`): 14 signed synthetic bills with expected results (`data/cases.json`) plus edge cases; 155 tests pass, and CI runs them on every pull request.
+- **Rules** (`tests/`): 14 signed synthetic bills with expected results (`data/cases.json`) plus edge cases; 171 tests pass, and CI runs them on every pull request.
 - **Stress** ([`docs/STRESS.md`](docs/STRESS.md)): 22/22 checks, including 6 AI audits at once, 200 requests at 50-way concurrency, a 9-way double click giving one order, 13 invalid-input and route checks answered with the expected 4xx responses, a prompt-injection test that returned the expected $1,882.38 total, and rate limits that a forged `X-Forwarded-For` cannot bypass.
 - **Live sandbox** ([`docs/LIVE_CHECK.md`](docs/LIVE_CHECK.md)): bill C08 paid with PayPal's published sandbox test card; PayPal reports the capture COMPLETED for $1,882.38 and the BillCheck-generated invoice MARKED_AS_PAID for $1,882.38.
 
 ## Run it
+
+**No keys (replay mode, for judges):** one command. It serves the app with recorded or simulated AI and PayPal responses for the five sample bills; the audit, rules and server-side amount checks run for real, and the page says "Replay mode" at the top. The first run creates `.venv` and installs the dependencies (needs the network once); after that nothing is called over the network.
+
+```bash
+git clone https://github.com/DrAhmed7887/hack-paypal-ai.git && cd hack-paypal-ai && scripts/replay.sh
+```
+
+Open http://127.0.0.1:8000, pick a sample, check it, and press "Simulate sandbox payment (replay)". The capture and invoice ids shown are the ones recorded in the 11 Nov 2026 sandbox run of sample C08; only C08 has a recorded AI summary (the other samples show the fixed template). Pasted or uploaded bills other than the samples are refused in this mode.
+
+**With your own keys (live):**
 
 Requires Python 3.11+, a PayPal **sandbox** REST app (US business account, with the Invoicing feature on) and a Fireworks API key.
 

@@ -1,0 +1,20 @@
+{
+ "_note": "Recorded replay data. summaries: AI summary text returned by the live model for sample C08 in the 11 Nov 2026 end-to-end run (video/film/assets/ui/audit.json). paypal: ids read back from that run's PayPal sandbox capture and invoice (scripts/video marks, 11 Nov 2026). Synthetic bills and sandbox money only.",
+ "summaries": {
+  "C08": "The hospital billed a total of $4,445.00, but the audit suggests a total of $1,882.38, indicating a potential negotiation difference of $2,562.62. For the ED visit (level 4) billed at $2,400.00, the audit provides a negotiation reference amount of $1,189.38, and for the CT head billed at $1,650.00, the negotiation reference amount is $298.00. The lab tests and injection were not flagged for negotiation, with amounts of $180.00, $95.00, and $120.00 respectively."
+ },
+ "paypal": {
+  "order": {
+   "status": "CREATED",
+   "links": [
+    {
+     "rel": "payer-action",
+     "href": "https://www.sandbox.paypal.com/checkoutnow?token=REPLAY"
+    }
+   ]
+  },
+  "capture_id": "7BB91146F1845732P",
+  "invoice_id": "INV2-KLA2-KJ79-245E-WQH7",
+  "payer_email": "buyer@personal.example.com"
+ }
+}

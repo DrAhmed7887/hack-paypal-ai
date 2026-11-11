@@ -10,7 +10,7 @@ Every number here comes from a script or a file in this repo. The README is the 
 
 | Criterion (Devpost, equally weighted) | Evidence | Where |
 |---|---|---|
-| **Technological implementation** | Three PayPal APIs work together: JS SDK buttons; Orders v2 for an amount the server holds (the browser never sends it), checked against the audit at capture; Invoicing v2 for an invoice recorded as paid with the same payment. Idempotency keys on capture, invoice and payment record. The AI output is held to a fixed schema, and every code, amount and date must appear on the bill. 155 tests pass, and CI runs them on every pull request. | README "How PayPal is used", "What it does"; `src/billcheck/paypal_client.py`, `extractor.py`, `auditor.py`; `.github/workflows/ci.yml`; `tests/` |
+| **Technological implementation** | Three PayPal APIs work together: JS SDK buttons; Orders v2 for an amount the server holds (the browser never sends it), checked against the audit at capture; Invoicing v2 for an invoice recorded as paid with the same payment. Idempotency keys on capture, invoice and payment record. The AI output is held to a fixed schema, and every code, amount and date must appear on the bill. 171 tests pass, and CI runs them on every pull request. | README "How PayPal is used", "What it does"; `src/billcheck/paypal_client.py`, `extractor.py`, `auditor.py`; `.github/workflows/ci.yml`; `tests/` |
 | **Design** | One flow: bill in → line-by-line comparison → plain-language summary → pay. A line with no confirmed benchmark says so instead of being flagged. Audit history in AG Grid: sort, filter, search, CSV export, and a totals row that follows the filter. | README "What it does" (steps 1–6); `src/billcheck/web/`; `docs/workflow.svg` |
 | **Potential impact** | Hospital list prices can sit far above what hospitals are paid: an average charge-to-cost ratio of 3.4 in a national study (Bai & Anderson, *Health Affairs* 2015, PMID 26056196). Uninsured patients are commonly asked to pay full charges. BillCheck gives a patient a public reference per line and a paper trail for what they paid. | README "Why"; `data/DATA_CARD.md` |
 | **Innovation / idea** | Payment is tied to the audit: PayPal moves the suggested amount, and the provider-side invoice is generated at those amounts and marked paid with the same capture. The rules (Medicare schedule per line type; RAND Round 5.1 reference multipliers 1.84× professional, 2.79× outpatient hospital) were signed by a physician. | `docs/DECISIONS.md`; `src/billcheck/benchmarks.json`; README "What it does" step 3 |
@@ -31,5 +31,9 @@ Every number here comes from a script or a file in this repo. The README is the 
 ## Quick check without keys
 
 ```bash
-pip install -e '.[dev]' && python -m pytest -q
+git clone https://github.com/DrAhmed7887/hack-paypal-ai.git && cd hack-paypal-ai && scripts/replay.sh
 ```
+
+Then open http://127.0.0.1:8000. This is **replay mode**: no API keys, no PayPal account. The AI reading and PayPal responses are recorded or simulated for the five sample bills, and the page says so at the top. The audit, rules and server-side amount checks run for real. The first run installs the dependencies (network once). The live version needs a PayPal sandbox app and a Fireworks key (README "Run it").
+
+To run the tests: `pip install -e '.[dev]' && python -m pytest -q`.

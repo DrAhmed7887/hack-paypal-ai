@@ -73,3 +73,5 @@ button.primary[disabled] { opacity: .6; cursor: progress; }
 .grid .badge { margin: 0; padding: 2px 8px; font-size: 12px; line-height: 1.5; white-space: nowrap; }
 .cell-flag { color: #a3361f; font-weight: 700; }
 .row-total { font-weight: 700; }
+
+.replay-banner { margin: 0; padding: 10px 16px; background: var(--warn-soft); color: var(--warn); border-bottom: 2px solid var(--warn); font-size: .92rem; text-align: center; }

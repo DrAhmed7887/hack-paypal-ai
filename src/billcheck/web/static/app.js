@@ -98,8 +98,23 @@ async function setupPayment(cfg, r) {
   showError("pay-error", "");
   $("paypal-buttons").replaceChildren();
   if (!(r.total_suggested > 0) || r.total_suggested >= r.line_sum) { step.hidden = true; return; }  // nothing reduced: no pay step
-  $("pay-text").textContent = `Pay ${usd(r.total_suggested)} instead of ${usd(r.line_sum)}. This is PayPal sandbox money: no real payment is made.`;
+  $("pay-text").textContent = `Pay ${usd(r.total_suggested)} instead of ${usd(r.line_sum)}. ${cfg.replay ? "Replay mode: nothing is sent to PayPal; the payment is simulated from recorded sandbox responses." : "This is PayPal sandbox money: no real payment is made."}`;
   step.hidden = false;
+  if (cfg.replay) {  // no PayPal SDK without a client id: same server order and capture path, simulated click
+    const sim = el("button", "chip", cfg.simulate_label);
+    sim.id = "simulate-pay";
+    sim.type = "button";
+    sim.addEventListener("click", async () => {
+      sim.disabled = true;
+      showError("pay-error", "");
+      try {
+        await api(`/api/audits/${auditId}/order`, { method: "POST" });
+        showReceipt(await api(`/api/audits/${auditId}/capture`, { method: "POST" }));
+      } catch (err) { showError("pay-error", err.message); sim.disabled = false; }
+    });
+    $("paypal-buttons").appendChild(sim);
+    return;
+  }
   if (!cfg.paypal_client_id) { showError("pay-error", "PayPal is not configured on this server."); return; }
   try {
     await loadPayPal(cfg.paypal_client_id);
@@ -113,6 +128,7 @@ async function setupPayment(cfg, r) {
 }
 
 function showReceipt(rec) {
+        document.querySelector("#receipt .ok").textContent = rec.replay_note ? "Payment simulated (replay, recorded sandbox ids)" : "Payment complete (sandbox)";
         $("r-amount").textContent = usd(rec.amount);
         $("r-capture").textContent = rec.capture_id || "–";
         const inv = $("r-invoice");
@@ -121,6 +137,8 @@ function showReceipt(rec) {
           const a = el("a", null, rec.invoice_id);
           a.href = rec.invoice_url; a.target = "_blank"; a.rel = "noopener";
           inv.appendChild(a);
+        } else if (rec.invoice_status === "issued") {
+          inv.textContent = rec.invoice_id;  // replay: recorded id, no link
         } else {
           const retry = el("button", "chip", "Payment received. Issue the itemized invoice");
           retry.type = "button";
@@ -131,7 +149,7 @@ function showReceipt(rec) {
           });
           inv.appendChild(retry);
         }
-        $("r-note").textContent = rec.invoice_status === "issued"
+        $("r-note").textContent = rec.replay_note ? rec.replay_note : rec.invoice_status === "issued"
           ? "An itemized invoice at the suggested amounts was issued through PayPal from the provider's sandbox account and marked as paid with this payment."
           : "Your payment is complete. The itemized invoice has not been issued yet; use the button above to try again.";
         $("paypal-buttons").replaceChildren();

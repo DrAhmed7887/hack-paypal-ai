@@ -6,6 +6,7 @@ one corrected invoice per audit, sent only to the payer email PayPal returns; pe
 Run: PAYPAL_CLIENT_ID=… PAYPAL_CLIENT_SECRET=… FIREWORKS_API_KEY=… uvicorn billcheck.web.app:app
 """
 
+import html
 import json
 import logging
 import os
@@ -31,6 +32,7 @@ from ..llm import FireworksLLM, LLMError, SpendCapReached
 from ..models import AuditReport, MedicalBill
 from ..paypal_client import PayPalClient, PayPalError
 from ..render import render_table
+from .. import replay
 from .pdftext import extract_text as pdf_text
 
 log = logging.getLogger("billcheck")
@@ -178,8 +180,15 @@ def _public(report: AuditReport, explanation) -> Dict[str, Any]:
     }
 
 
-def create_app(llm_factory: Callable[[], Any] = FireworksLLM,
-               paypal_factory: Callable[[], PayPalClient] = PayPalClient) -> FastAPI:
+def create_app(llm_factory: Optional[Callable[[], Any]] = None,
+               paypal_factory: Optional[Callable[[], PayPalClient]] = None) -> FastAPI:
+    replay_mode = replay.enabled()  # BILLCHECK_REPLAY=1: recorded AI and PayPal responses, no keys, no network
+    if replay_mode:
+        log.warning("BILLCHECK_REPLAY is on: recorded AI and PayPal responses, nothing live")
+        replay_llm, replay_paypal = replay.ReplayLLM(), replay.ReplayPayPal()
+        llm_factory = llm_factory or (lambda: replay_llm)  # explicit factories (tests) win
+        paypal_factory = paypal_factory or (lambda: replay_paypal)
+    llm_factory, paypal_factory = llm_factory or FireworksLLM, paypal_factory or PayPalClient
     app = FastAPI(title="BillCheck", docs_url=None, redoc_url=None, openapi_url=None)
 
     class Guard(BaseHTTPMiddleware):
@@ -214,11 +223,14 @@ def create_app(llm_factory: Callable[[], Any] = FireworksLLM,
 
     @app.get("/", response_class=HTMLResponse)
     def index() -> str:
-        return static.joinpath("index.html").read_text(encoding="utf-8")
+        page = static.joinpath("index.html").read_text(encoding="utf-8")
+        banner = f'<p id="replay-banner" class="replay-banner" role="status"><strong>{html.escape(replay.BANNER)}</strong></p>'
+        return page.replace("<!--REPLAY_BANNER-->", banner if replay_mode else "")
 
     @app.get("/api/config")
     def config() -> Dict[str, Any]:
-        return {"paypal_client_id": os.environ.get("PAYPAL_CLIENT_ID", ""),
+        return {"replay": replay_mode, "simulate_label": replay.SIMULATE_LABEL,
+                "paypal_client_id": "" if replay_mode else os.environ.get("PAYPAL_CLIENT_ID", ""),
                 "samples": [{"id": s["id"], "title": s["title"]} for s in samples.values()]}
 
     @app.get("/api/samples/{sample_id}")
@@ -237,6 +249,9 @@ def create_app(llm_factory: Callable[[], Any] = FireworksLLM,
             bill = extract_bill(bill_text, llm)
         except ExtractionError as exc:
             raise HTTPException(422, f"BillCheck could not read this bill safely: {exc}") from exc
+        except replay.ReplayMiss as exc:
+            raise HTTPException(422, "Replay mode has recorded responses for the five sample bills only. "
+                                     "Pick one of the samples.") from exc
         except (LLMError, SpendCapReached) as exc:
             raise HTTPException(503, "The AI reader is unavailable right now. Please try a sample later.") from exc
         report = auditor.audit(bill)
@@ -301,11 +316,12 @@ def create_app(llm_factory: Callable[[], Any] = FireworksLLM,
 
     def _receipt(record: AuditRecord) -> Dict[str, Any]:
         issued = record.state == "invoiced"
-        return {"status": "paid", "amount": record.capture.get("amount"), "capture_id": record.capture.get("capture_id"),
+        return {"status": "paid", "replay_note": replay.RECEIPT_NOTE if replay_mode else None,
+                "amount": record.capture.get("amount"), "capture_id": record.capture.get("capture_id"),
                 "invoice_status": "issued" if issued else "pending",
                 "invoice_id": record.invoice_id if issued else None,
                 "invoice_url": (f"https://www.sandbox.paypal.com/invoice/p/#{record.invoice_id.replace('INV2-', '').replace('-', '')}"
-                                if issued else None)}
+                                if issued and not replay_mode else None)}
 
     @app.exception_handler(HTTPException)
     def http_error(_: Request, exc: HTTPException) -> JSONResponse:
