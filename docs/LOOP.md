@@ -24,4 +24,5 @@ Deadline: Thu 12 Nov 2026, 12:00 PT. One item per loop iteration: the first unch
 - [x] 14. 🔒 G4: Ahmed watched the preview with sound and asked for the render (9 Nov).
 - [x] 15. Pre-publish scan: secret patterns and private notes, full history of the development repo and the published snapshot: clean (9 Nov).
 - [x] 16. 🔒 G5: repo public, YouTube upload (https://youtu.be/LjjzFM5r5VU), Devpost submitted (https://devpost.com/software/billcheck-7vlo29), 9 Nov.
+- [x] 16b. Devpost asked (11 Nov) for footage of the app functioning: real end-to-end screen recording uploaded by Ahmed (https://youtu.be/X4anYpSwWJc), Devpost video link replaced and Devpost answered, 11 Nov.
 - [x] 17. AG Grid sponsor track (owner: "Build the audit grid", 9 Nov): Audit history view in AG Grid Community 36.2.0, self-hosted, pinned by hash; history API returns only the browser's own audits.

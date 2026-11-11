@@ -4,7 +4,7 @@
 
 **Headline example (synthetic bill C08):** **$4,445.00 billed → $1,882.38 suggested**. PayPal sandbox reports the capture COMPLETED for $1,882.38 and the BillCheck-generated invoice MARKED_AS_PAID for $1,882.38 (`docs/LIVE_CHECK.md`).
 
-**Demo film (under 3 minutes):** https://youtu.be/LjjzFM5r5VU · **Run it:** README "Run it" (Python 3.11+, a PayPal sandbox REST app and a Fireworks key). Synthetic bills and sandbox money only.
+**Demo video (1:36, the real app running end to end; two waits shortened, as labelled):** https://youtu.be/X4anYpSwWJc · **Explainer film:** https://youtu.be/LjjzFM5r5VU · **Run it:** README "Run it" (Python 3.11+, a PayPal sandbox REST app and a Fireworks key). Synthetic bills and sandbox money only.
 
 Every number here comes from a script or a file in this repo. The README is the single source for claims; this page only points to them.
 
@@ -14,7 +14,7 @@ Every number here comes from a script or a file in this repo. The README is the 
 | **Design** | One flow: bill in → line-by-line comparison → plain-language summary → pay. A line with no confirmed benchmark says so instead of being flagged. Audit history in AG Grid: sort, filter, search, CSV export, and a totals row that follows the filter. | README "What it does" (steps 1–6); `src/billcheck/web/`; `docs/workflow.svg` |
 | **Potential impact** | Hospital list prices can sit far above what hospitals are paid: an average charge-to-cost ratio of 3.4 in a national study (Bai & Anderson, *Health Affairs* 2015, PMID 26056196). Uninsured patients are commonly asked to pay full charges. BillCheck gives a patient a public reference per line and a paper trail for what they paid. | README "Why"; `data/DATA_CARD.md` |
 | **Innovation / idea** | Payment is tied to the audit: PayPal moves the suggested amount, and the provider-side invoice is generated at those amounts and marked paid with the same capture. The rules (Medicare schedule per line type; RAND Round 5.1 reference multipliers 1.84× professional, 2.79× outpatient hospital) were signed by a physician. | `docs/DECISIONS.md`; `src/billcheck/benchmarks.json`; README "What it does" step 3 |
-| **Presentation** | Demo film; workflow diagram; measured results with limits stated; an independent model-family quality check of rules and results. | https://youtu.be/LjjzFM5r5VU; `docs/workflow.png`; README "Measured results"; `docs/QA.md` |
+| **Presentation** | Demo video of the running app and an explainer film; workflow diagram; measured results with limits stated; an independent model-family quality check of rules and results. | https://youtu.be/X4anYpSwWJc; https://youtu.be/LjjzFM5r5VU; `docs/workflow.png`; README "Measured results"; `docs/QA.md` |
 
 ## Safety and robustness
 
